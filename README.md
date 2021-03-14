@@ -33,7 +33,7 @@ Extract contents of the YuzuModDownloader.zip file into your Yuzu root folder.
 
 ![YuzuModDownloaderSetup](images/ymd-setup.PNG)
 
-Yuzu Mod Downloader does not require Administrator privileges to run.
+YuzuModDownloader does not require Administrator privileges to run.
 
 ## Acknowledgements
 Thanks:
