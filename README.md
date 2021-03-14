@@ -1,9 +1,9 @@
 # Yuzu Mod Downloader
 A One-Click Yuzu Game Mod downloader for Switch games.
 
-Perfect for those who need to download Switch enhancement/workaround mods from the [Yuzu Switch-Mods Wiki](https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods).
+Perfect for those who need to download Switch enhancement/workaround mods from the [Yuzu Switch-Mods Wiki](https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods) for their games.
 
-Compatible with the standalone and installed versions of Yuzu.
+Compatible with both the standalone and installed versions of Yuzu.
 
 ## Overview
 ![YuzuModDownloader](images/ymd.png)
