@@ -1,4 +1,9 @@
+![GitHub repo size](https://img.shields.io/github/repo-size/amakvana/YuzuModDownloader)
+![GitHub all releases](https://img.shields.io/github/downloads/amakvana/YuzuModDownloader/total)
+![GitHub](https://img.shields.io/github/license/amakvana/YuzuModDownloader)
+
 # Yuzu Mod Downloader
+
 A One-Click Yuzu Game Mod downloader for Switch games.
 
 Perfect for those who need to download Switch enhancement/workaround mods from the [Yuzu Switch-Mods Wiki](https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods) for their games.
