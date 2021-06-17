@@ -1,6 +1,6 @@
-![GitHub repo size](https://img.shields.io/github/repo-size/amakvana/YuzuModDownloader)
-![GitHub all releases](https://img.shields.io/github/downloads/amakvana/YuzuModDownloader/total)
-![GitHub](https://img.shields.io/github/license/amakvana/YuzuModDownloader)
+![GitHub repo size](https://img.shields.io/github/repo-size/amakvana/YuzuModDownloader?style=for-the-badge&logo=appveyor)
+![GitHub all releases](https://img.shields.io/github/downloads/amakvana/YuzuModDownloader/total?style=for-the-badge&logo=appveyor)
+![GitHub](https://img.shields.io/github/license/amakvana/YuzuModDownloader?style=for-the-badge&logo=appveyor)
 
 # Yuzu Mod Downloader
 
