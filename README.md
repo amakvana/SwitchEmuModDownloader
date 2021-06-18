@@ -36,7 +36,7 @@ Requires:
 ## Installation
 Extract contents of the YuzuModDownloader.zip file into your Yuzu root folder then refer to the [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md).
 
-![YuzuModDownloaderSetup](images/ymd-setup.PNG)
+![YuzuModDownloaderSetup](images/ymd-setup.png)
 
 YuzuModDownloader does not require Administrator privileges to run.
 
