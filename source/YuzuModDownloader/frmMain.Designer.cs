@@ -41,8 +41,12 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.directoryBrowseButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.directoryTextBox = new System.Windows.Forms.TextBox();
             this.chkClearModDataLocation = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -52,7 +56,7 @@
             this.btnDownload.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDownload.Image = ((System.Drawing.Image)(resources.GetObject("btnDownload.Image")));
             this.btnDownload.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnDownload.Location = new System.Drawing.Point(12, 121);
+            this.btnDownload.Location = new System.Drawing.Point(12, 166);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(340, 63);
             this.btnDownload.TabIndex = 0;
@@ -64,7 +68,7 @@
             // lblProgress
             // 
             this.lblProgress.AutoSize = true;
-            this.lblProgress.Location = new System.Drawing.Point(12, 76);
+            this.lblProgress.Location = new System.Drawing.Point(9, 121);
             this.lblProgress.Name = "lblProgress";
             this.lblProgress.Size = new System.Drawing.Size(58, 13);
             this.lblProgress.TabIndex = 1;
@@ -72,7 +76,7 @@
             // 
             // pbarProgress
             // 
-            this.pbarProgress.Location = new System.Drawing.Point(12, 92);
+            this.pbarProgress.Location = new System.Drawing.Point(12, 137);
             this.pbarProgress.Name = "pbarProgress";
             this.pbarProgress.Size = new System.Drawing.Size(340, 23);
             this.pbarProgress.TabIndex = 4;
@@ -99,7 +103,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -134,29 +138,62 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.directoryBrowseButton);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.directoryTextBox);
             this.groupBox1.Controls.Add(this.chkClearModDataLocation);
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(340, 46);
+            this.groupBox1.Size = new System.Drawing.Size(340, 86);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
             // 
+            // directoryBrowseButton
+            // 
+            this.directoryBrowseButton.Location = new System.Drawing.Point(259, 37);
+            this.directoryBrowseButton.Name = "directoryBrowseButton";
+            this.directoryBrowseButton.Size = new System.Drawing.Size(75, 20);
+            this.directoryBrowseButton.TabIndex = 3;
+            this.directoryBrowseButton.Text = "Browse";
+            this.directoryBrowseButton.UseVisualStyleBackColor = true;
+            this.directoryBrowseButton.Click += new System.EventHandler(this.directoryBrowseButton_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "yuzu Directory";
+            // 
+            // directoryTextBox
+            // 
+            this.directoryTextBox.Location = new System.Drawing.Point(6, 37);
+            this.directoryTextBox.Name = "directoryTextBox";
+            this.directoryTextBox.Size = new System.Drawing.Size(247, 20);
+            this.directoryTextBox.TabIndex = 1;
+            // 
             // chkClearModDataLocation
             // 
             this.chkClearModDataLocation.AutoSize = true;
-            this.chkClearModDataLocation.Location = new System.Drawing.Point(6, 19);
+            this.chkClearModDataLocation.Location = new System.Drawing.Point(6, 63);
             this.chkClearModDataLocation.Name = "chkClearModDataLocation";
             this.chkClearModDataLocation.Size = new System.Drawing.Size(144, 17);
             this.chkClearModDataLocation.TabIndex = 0;
             this.chkClearModDataLocation.Text = "Clear Mod Data Location";
             this.chkClearModDataLocation.UseVisualStyleBackColor = true;
             // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 196);
+            this.ClientSize = new System.Drawing.Size(364, 241);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pbarProgress);
             this.Controls.Add(this.lblProgress);
@@ -194,6 +231,10 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkClearModDataLocation;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.TextBox directoryTextBox;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Button directoryBrowseButton;
+        private System.Windows.Forms.Label label1;
     }
 }
 

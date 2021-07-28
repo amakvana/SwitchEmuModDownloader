@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace YuzuModDownloader
@@ -25,16 +26,21 @@ namespace YuzuModDownloader
             lblProgress.Text = "";
             toolTip1.SetToolTip(chkClearModDataLocation, "Check this to delete all existing mods before downloading the latest switch mods");
             toolTip1.SetToolTip(btnDownload, "Download Yuzu Game Mods for current switch games dumped");
+            directoryTextBox.Text = Directory.Exists("user") ?
+                Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "user") :
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "yuzu");
         }
 
         private async void btnDownload_Click(object sender, EventArgs e)
         {
+            if(!ValidateDirectory(directoryTextBox.Text)) return;
+
             // disable form controls
             ToggleControls(false);
 
             // get prerequisites
             string gameTitleIDsXml = "GameTitleIDs.xml";
-            var modDownloader = new ModDownloader();
+            var modDownloader = new ModDownloader(directoryTextBox.Text);
             modDownloader.UpdateProgress += ModDownloader_UpdateProgress;
             await modDownloader.DownloadPrerequisitesAsync();
             await modDownloader.DownloadGameTitleIdDatabaseAsync(gameTitleIDsXml);
@@ -87,6 +93,33 @@ namespace YuzuModDownloader
         {
             btnDownload.Enabled = value;
             chkClearModDataLocation.Enabled = value;
+            directoryTextBox.Enabled = value;
+            directoryBrowseButton.Enabled = value;
+        }
+
+        private bool ValidateDirectory(string dir)
+        {
+            try
+            {
+                Path.GetFullPath(dir);
+                return true;
+            } catch (ArgumentException _)
+            {
+                MessageBox.Show($"The directory {dir} is invalid", "Invalid directory", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+        {
+
+        }
+
+        private void directoryBrowseButton_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.SelectedPath = directoryTextBox.Text;
+            folderBrowserDialog1.ShowDialog();
+            directoryTextBox.Text = folderBrowserDialog1.SelectedPath;
         }
     }
 }

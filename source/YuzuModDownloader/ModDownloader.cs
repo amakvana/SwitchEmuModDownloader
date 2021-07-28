@@ -16,11 +16,9 @@ namespace YuzuModDownloader
     {
         private readonly string UserDirPath;
 
-        public ModDownloader()
+        public ModDownloader(string UserDirPath)
         {
-            UserDirPath = Directory.Exists("user") ?
-                Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "user") :
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "yuzu");
+            this.UserDirPath = UserDirPath;
         }
 
         public delegate void UpdateProgressDelegate(int progressPercentage, string progressText);
