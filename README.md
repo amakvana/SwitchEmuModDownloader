@@ -11,7 +11,7 @@ Perfect for those who need to download Switch enhancement/workaround mods from t
 Compatible with both the standalone and installed versions of Yuzu.
 
 ## Overview
-![YuzuModDownloader](images/ymd.gif)
+![YuzuModDownloaderAnimated](images/ymd.gif)
 
 ### Methodology 
 * Reads current games imported into Yuzu.
@@ -36,6 +36,7 @@ Requires:
 ## Installation
 Extract contents of the YuzuModDownloader.zip file into your Yuzu root folder then refer to the [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md).
 
+![YuzuModDownloaderSetupAnimated](images/ymd-setup.gif)
 ![YuzuModDownloaderSetup](images/ymd-setup.png)
 
 YuzuModDownloader does not require Administrator privileges to run.
