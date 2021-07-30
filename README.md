@@ -11,7 +11,7 @@ Perfect for those who need to download Switch enhancement/workaround mods from t
 Compatible with both the standalone and installed versions of Yuzu.
 
 ## Overview
-![YuzuModDownloader](images/ymd.png)
+![YuzuModDownloader](images/ymd.gif)
 
 ### Methodology 
 * Reads current games imported into Yuzu.
