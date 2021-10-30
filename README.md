@@ -15,11 +15,11 @@ Compatible with both the standalone and installed versions of Yuzu.
 ![YuzuModDownloaderAnimated](images/ymd.gif)
 
 ### Methodology 
-* Reads current games imported into Yuzu.
-* Reads https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods
-* Scans game library to see available mods.
-* Fetches the mod URL's for current games.
-* Downloads & extracts it into the Yuzu Mod folder.
+1. Reads current games imported into Yuzu.
+2. Reads https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods
+3. Scans game library to see available mods.
+4. Fetches the mod URL's for current games.
+5. Downloads & extracts it into the Yuzu Mod folder.
 
 ### Usage 
 See [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md)
