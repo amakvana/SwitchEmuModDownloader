@@ -1,6 +1,7 @@
+![GitHub Release](https://img.shields.io/github/v/release/amakvana/YuzuModDownloader?style=for-the-badge&logo=appveyor)
+![GitHub license](https://img.shields.io/github/license/amakvana/YuzuModDownloader?style=for-the-badge&logo=appveyor)
 ![GitHub repo size](https://img.shields.io/github/repo-size/amakvana/YuzuModDownloader?style=for-the-badge&logo=appveyor)
 ![GitHub all releases](https://img.shields.io/github/downloads/amakvana/YuzuModDownloader/total?style=for-the-badge&logo=appveyor)
-![GitHub](https://img.shields.io/github/license/amakvana/YuzuModDownloader?style=for-the-badge&logo=appveyor)
 
 # Yuzu Mod Downloader
 
@@ -11,14 +12,14 @@ Perfect for those who need to download Switch enhancement/workaround mods from t
 Compatible with both the standalone and installed versions of Yuzu.
 
 ## Overview
-![YuzuModDownloader](images/ymd.png)
+![YuzuModDownloaderAnimated](images/ymd.gif)
 
 ### Methodology 
-* Reads current games imported into Yuzu.
-* Reads https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods
-* Scans game library to see available mods.
-* Fetches the mod URL's for current games.
-* Downloads & extracts it into the Yuzu Mod folder.
+1. Reads current games imported into Yuzu.
+2. Reads https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods
+3. Scans game library to see available mods.
+4. Fetches the mod URL's for current games.
+5. Downloads & extracts it into the defined Yuzu Mod folder.
 
 ### Usage 
 See [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md)
@@ -36,6 +37,7 @@ Requires:
 ## Installation
 Extract contents of the YuzuModDownloader.zip file into your Yuzu root folder then refer to the [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md).
 
+![YuzuModDownloaderSetupAnimated](images/ymd-setup.gif)
 ![YuzuModDownloaderSetup](images/ymd-setup.png)
 
 YuzuModDownloader does not require Administrator privileges to run.

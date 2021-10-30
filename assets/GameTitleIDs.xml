@@ -3481,7 +3481,7 @@
 <title_id>010094E00B52E000</title_id>
 </game>
 <game>
-<title_name>Captain Toad Treasure Tracker</title_name>
+<title_name>Captain Toad: Treasure Tracker</title_name>
 <title_id>01009BF0072D4000</title_id>
 </game>
 <game>
@@ -4121,7 +4121,7 @@
 <title_id>0100B1300783E000</title_id>
 </game>
 <game>
-<title_name>Kirby Star Allies</title_name>
+<title_name>Kirby: Star Allies</title_name>
 <title_id>01007E3006DDA000</title_id>
 </game>
 <game>
@@ -4517,11 +4517,11 @@
 <title_id>0100ABF008968000</title_id>
 </game>
 <game>
-<title_name>Pokemon Let’s Go Eevee</title_name>
+<title_name>Pokemon, Let's Go Eevee!</title_name>
 <title_id>0100187003A36000</title_id>
 </game>
 <game>
-<title_name>Pokemon Let’s Go Pikachu</title_name>
+<title_name>Pokemon, Let's Go Pikachu!</title_name>
 <title_id>010003F003A34000</title_id>
 </game>
 <game>
@@ -5287,5 +5287,49 @@
 <game>
 <title_name>Mario Golf: Super Rush</title_name>
 <title_id>0100C9C00E25C000</title_id>
+</game>
+<game>
+<title_name>The Legend of Zelda: Skyward Sword HD</title_name>
+<title_id>01002DA013484000</title_id>
+</game>
+<game>
+<title_name>No More Heroes 3</title_name>
+<title_id>01007C600EB42000</title_id>
+</game>
+<game>
+<title_name>WarioWare: Get It Together!</title_name>
+<title_id>0100EE9015B5E000</title_id>
+</game>
+<game>
+<title_name>Sonic Colors: Ultimate</title_name>
+<title_id>010040E0116B8000</title_id>
+</game>
+<game>
+<title_name>NBA 2K22</title_name>
+<title_id>0100B94014F8E000</title_id>
+</game>
+<game>
+<title_name>Castlevania Advance Collection</title_name>
+<title_id>0100B33014710000</title_id>
+</game>
+<game>
+<title_name>Diablo II: Resurrected</title_name>
+<title_id>0100726014352000</title_id>
+</game>
+<game>
+<title_name>Pokemon TV</title_name>
+<title_id>010009F014D98000</title_id>
+</game>
+<game>
+<title_name>Metroid Dread</title_name>
+<title_id>010093801237C000</title_id>
+</game>
+<game>
+<title_name>Disco Elysium - The Final Cut</title_name>
+<title_id>01006C5015E84000</title_id>
+</game>
+<game>
+<title_name>Super Monkey Ball Banana Mania</title_name>
+<title_id>010001701248C000</title_id>
 </game>
 </games>
