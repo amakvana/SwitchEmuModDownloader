@@ -19,7 +19,7 @@ Compatible with both the standalone and installed versions of Yuzu.
 2. Reads https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods
 3. Scans game library to see available mods.
 4. Fetches the mod URL's for current games.
-5. Downloads & extracts it into the Yuzu Mod folder.
+5. Downloads & extracts it into the defined Yuzu Mod folder.
 
 ### Usage 
 See [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md)
