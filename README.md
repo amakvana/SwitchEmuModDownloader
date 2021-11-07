@@ -45,5 +45,4 @@ YuzuModDownloader does not require Administrator privileges to run.
 ## Acknowledgements
 Thanks:
 * [Yuzu Team](https://yuzu-emu.org/) - Nintendo Switch Emulator Developers
-* [BSoD Gaming](https://www.youtube.com/channel/UCex2B-k-ZIJhcjRdlYUz4MQ) - Yuzu Setup Guide  
 * [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons
