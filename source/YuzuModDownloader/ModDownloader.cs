@@ -51,14 +51,22 @@ namespace YuzuModDownloader
                 wc.DownloadFileCompleted += (s, e) =>
                 {
                     UpdateProgress(0, "Unpacking prerequisites ...");
-                    using (var archive = ZipFile.OpenRead(sevenZLocation))
+                    var archive = ZipFile.OpenRead(sevenZLocation);
+                    var entriesCount = archive.Entries.Count();
+                    var stepSize = 100 / entriesCount;
+                    var i = 0;
+                    using (archive)
                     {
                         foreach (var entry in archive.Entries)
                         {
                             entry.ExtractToFile(Path.Combine($"{prerequisitesLocation}", entry.FullName), true);
+                            UpdateProgress(stepSize * i, entry.Name);
+                            i++;
                         }
                     }
+                    File.Delete(sevenZLocation);
                     UpdateProgress(100, "Done");
+                    
                 };
                 wc.DownloadProgressChanged += (s, e) => UpdateProgress(e.ProgressPercentage, "Downloading Prerequisites ...");
                 await wc.DownloadFileTaskAsync("https://my.cloudme.com/v1/ws2/:amakvana/:7z/7z.zip", sevenZLocation);
@@ -97,6 +105,7 @@ namespace YuzuModDownloader
             var web = new HtmlWeb();
             var htmlDoc = web.Load(modWebsiteUrl);
             var nodes = htmlDoc.DocumentNode.SelectNodes(@"//h3[contains(., """ + titleName + "\")]/following::table[1]//td//a");
+            
 
             // if true, delete existing mods 
             if (deleteExistingMods)
@@ -141,6 +150,7 @@ namespace YuzuModDownloader
                                 };
                                 using (var p = Process.Start(psi))
                                 {
+                                    File.Delete($@"{UserDirPath}\load\{titleId}\{fileName}");
                                     UpdateProgress(100, "Done");
                                 }
                             };
