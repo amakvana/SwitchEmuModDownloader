@@ -39,16 +39,29 @@ namespace YuzuModDownloader
             await modDownloader.DownloadPrerequisitesAsync();
             await modDownloader.DownloadGameTitleIdDatabaseAsync(gameTitleIDsXml);
             var gameTitleNameIDs = modDownloader.ReadGameTitleIdDatabase(gameTitleIDsXml);
+            System.Collections.Generic.List<string> selectedTitles;
+
+            using (var f = new frmSelect(gameTitleNameIDs))
+            {
+                f.ShowDialog();
+                selectedTitles = f.getSelectedTitles();
+            }
 
             // download mods for each game 
             int totalGames = 0;
-            foreach (var g in gameTitleNameIDs)
+            foreach(var titleName in selectedTitles)
+            {
+                string titleId = gameTitleNameIDs[titleName];
+                await modDownloader.DownloadTitleModsAsync(titleName, titleId, "https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods", chkClearModDataLocation.Checked);
+                totalGames++;
+            }
+            /*foreach (var g in gameTitleNameIDs)
             {
                 string titleName = g.Key;
                 string titleId = g.Value;
                 await modDownloader.DownloadTitleModsAsync(titleName, titleId, "https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods", chkClearModDataLocation.Checked);
                 totalGames++;
-            }
+            }*/
 
             // enable form controls
             MessageBox.Show($"Done! Mods downloaded for {totalGames} games.{Environment.NewLine}{Environment.NewLine}" +
