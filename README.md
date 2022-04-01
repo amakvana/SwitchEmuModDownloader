@@ -42,7 +42,11 @@ Extract contents of the YuzuModDownloader.zip file into your Yuzu root folder th
 
 YuzuModDownloader does not require Administrator privileges to run.
 
+## Installation - YouTube Guide 
+[![Watch the video](images/ymd-youtube.jpg)](https://youtu.be/q_2ivWN07Kw)
+
 ## Acknowledgements
 Thanks:
 * [Yuzu Team](https://yuzu-emu.org/) - Nintendo Switch Emulator Developers
 * [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons
+* [Mr. Sujano](https://www.youtube.com/watch?v=q_2ivWN07Kw) - YouTube Installation Guide
