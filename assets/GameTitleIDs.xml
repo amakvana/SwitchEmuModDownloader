@@ -398,11 +398,11 @@
 </game>
 <game>
 <title_name>Atelier Lulua ~The Scion of Arland~</title_name>
-<title_id></title_id>
+<title_id>0100B1400CD50000</title_id>
 </game>
 <game>
 <title_name>Atelier Lydie &amp; Suelle ~The Alchemists and the Mysterious Paintings~</title_name>
-<title_id></title_id>
+<title_id>010009900947A000</title_id>
 </game>
 <game>
 <title_name>Attack on Titan 2</title_name>
@@ -1269,7 +1269,7 @@
 <title_id>0100B6800B5C8000</title_id>
 </game>
 <game>
-<title_name>Greco’s Hall of Kanji Learn Japanese&lt; Beginner &gt;</title_name>
+<title_name>Greco's Hall of Kanji Learn Japanese&lt; Beginner &gt;</title_name>
 <title_id>0100B6700DEC2000</title_id>
 </game>
 <game>
@@ -2093,11 +2093,11 @@
 <title_id>0100A6000ACEA000</title_id>
 </game>
 <game>
-<title_name>Pure / Electric Love "Everyone else!" - Ema Sakura -</title_name>
+<title_name>Pure / Electric Love Everyone else! - Ema Sakura -</title_name>
 <title_id>010050300AC28000</title_id>
 </game>
 <game>
-<title_name>Pure / Electric Love "Look at my eyes!" - Moe Yamauchi -</title_name>
+<title_name>Pure / Electric Love Look at my eyes! - Moe Yamauchi -</title_name>
 <title_id>010009000AC2A000</title_id>
 </game>
 <game>
@@ -2989,7 +2989,7 @@
 <title_id>0100534009FF2000</title_id>
 </game>
 <game>
-<title_name>Yoshi’s Crafted World</title_name>
+<title_name>Yoshi's Crafted World</title_name>
 <title_id>01006000040C2000</title_id>
 </game>
 <game>
@@ -3301,7 +3301,7 @@
 <title_id>01007B000C834000</title_id>
 </game>
 <game>
-<title_name>Assassin’s Creed: The Rebel Collection</title_name>
+<title_name>Assassin's Creed: The Rebel Collection</title_name>
 <title_id>010044700DEB0000</title_id>
 </game>
 <game>
@@ -3530,7 +3530,7 @@
 </game>
 <game>
 <title_name>Code: Realize ~Guardian of Rebirth~</title_name>
-<title_id></title_id>
+<title_id>010021D00F404000</title_id>
 </game>
 <game>
 <title_name>Coffin Dodgers</title_name>
@@ -4137,7 +4137,7 @@
 <title_id>0100830004FB6000</title_id>
 </game>
 <game>
-<title_name>LAYTON’S MYSTERY JOURNEY: Katrielle and the Millionaires’ Conspiracy - Deluxe Edition</title_name>
+<title_name>LAYTON'S MYSTERY JOURNEY: Katrielle and the Millionaires' Conspiracy - Deluxe Edition</title_name>
 <title_id>0100FB700D224000</title_id>
 </game>
 <game>
@@ -4366,7 +4366,7 @@
 </game>
 <game>
 <title_name>Nelke &amp; the Legendary Alchemists ~Ateliers of the New World~</title_name>
-<title_id></title_id>
+<title_id>01006ED00BC76000</title_id>
 </game>
 <game>
 <title_name>Neon Caves</title_name>
@@ -4761,7 +4761,7 @@
 <title_id>01003DD00BF0E000</title_id>
 </game>
 <game>
-<title_name>Sid Meier’s Civilization VI</title_name>
+<title_name>Sid Meier's Civilization VI</title_name>
 <title_id>010044500C182000</title_id>
 </game>
 <game>
@@ -5363,5 +5363,13 @@
 <game>
 <title_name>Pokemon Legends: Arceus</title_name>
 <title_id>01001F5010DFA000</title_id>
+</game>
+<game>
+<title_name>Persona 4 Arena Ultimax</title_name>
+<title_id>010075A016A3A000</title_id>
+</game>
+<game>
+<title_name>LEGO Star Wars: The Skywalker Saga</title_name>
+<title_id>010042D00D900000</title_id>
 </game>
 </games>
