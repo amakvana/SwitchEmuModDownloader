@@ -31,11 +31,11 @@ https://github.com/amakvana/YuzuModDownloader/releases/latest
 
 Requires:
 * Latest [Microsoft .NET Framework](https://go.microsoft.com/fwlink/?linkid=2088631).
-* Latest [Yuzu](https://yuzu-emu.org/downloads/), setup and [configured](https://www.youtube.com/watch?v=93xsKERji60).
+* Latest [Yuzu](https://yuzu-emu.org/downloads/) installed, setup and [configured](https://youtu.be/kSVlTC1mO9w).
 * [Visual C++ 2019 X64 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe).
 
 ## Installation
-Extract contents of the YuzuModDownloader.zip file into your Yuzu root folder then refer to the [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md).
+Extract contents of the YuzuModDownloader.zip file into your `Yuzu Root Folder` then refer to the [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md).
 
 ![YuzuModDownloaderSetupAnimated](images/ymd-setup.gif)
 ![YuzuModDownloaderSetup](images/ymd-setup.png)

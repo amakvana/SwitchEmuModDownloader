@@ -14,13 +14,16 @@ namespace YuzuModDownloader
 {
     public class ModDownloader
     {
+        private const string Quote = "\"";
         private readonly string UserDirPath;
-
+        private readonly string ModDirPath;
+        
         public ModDownloader()
         {
             UserDirPath = Directory.Exists("user") ?
                 Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "user") :
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "yuzu");
+            ModDirPath = GetModPath(UserDirPath);
         }
 
         public delegate void UpdateProgressDelegate(int progressPercentage, string progressText);
@@ -68,7 +71,7 @@ namespace YuzuModDownloader
         public Dictionary<string, string> ReadGameTitleIdDatabase(string gameTitleIDsXml)
         {
             // detect yuzu user directory 
-            // loop through /load/ folder & get title names from title Id's
+            // loop through {ModDirPath} folder & get title names from title Id's
             // return list 
 
             var d = new Dictionary<string, string>();
@@ -81,7 +84,7 @@ namespace YuzuModDownloader
                 string titleName = node["title_name"].InnerText.Trim();
                 string titleId = node["title_id"].InnerText.Trim();
                 
-                if (!string.IsNullOrWhiteSpace(titleId) && Directory.Exists($"{UserDirPath}/load/{titleId}"))
+                if (!string.IsNullOrWhiteSpace(titleId) && Directory.Exists($"{ModDirPath}/{titleId}"))
                 {
                     d.Add(titleName, titleId);
                 }
@@ -96,12 +99,12 @@ namespace YuzuModDownloader
 
             var web = new HtmlWeb();
             var htmlDoc = web.Load(modWebsiteUrl);
-            var nodes = htmlDoc.DocumentNode.SelectNodes(@"//h3[contains(., """ + titleName + "\")]/following::table[1]//td//a");
+            var nodes = htmlDoc.DocumentNode.SelectNodes($@"//h3[contains(., {Quote}{titleName}{Quote})]/following::table[1]//td//a");
 
             // if true, delete existing mods 
             if (deleteExistingMods)
             {
-                DeleteModData($@"{UserDirPath}\load\{titleId}");
+                DeleteModData($@"{ModDirPath}\{titleId}");
             }
 
             // download all mods for game 
@@ -119,13 +122,13 @@ namespace YuzuModDownloader
                         //if (modDownloadUrl.Contains("gamebanana.com"))
                         //{
                         //    // modUrl = GetGameBananaDownloadUrl(modUrl, out fileName);
-
                         //    // NEED to fix when files are extracted from GameBanana packages
                         //}
                         //else if (modDownloadUrl.Contains("bit.ly"))
                         //{
                         //    // coming soon ...
                         //}
+
                         if (modDownloadUrl.EndsWith(".zip") || modDownloadUrl.EndsWith(".rar") || modDownloadUrl.EndsWith(".7z"))
                         {
                             wc.DownloadFileCompleted += (s, e) =>
@@ -137,7 +140,7 @@ namespace YuzuModDownloader
                                 {
                                     WindowStyle = ProcessWindowStyle.Hidden,
                                     FileName = $@"{UserDirPath}\7z\7z.exe",
-                                    Arguments = "x \"" + $@"{UserDirPath}\load\{titleId}\{fileName}" + "\" -o" + $@"{UserDirPath}\load\{titleId}" + " -aoa"
+                                    Arguments = $@"x {Quote}{ModDirPath}\{titleId}\{fileName}{Quote} -o{Quote}{ModDirPath}\{titleId}{Quote} -aoa"
                                 };
                                 using (var p = Process.Start(psi))
                                 {
@@ -145,29 +148,38 @@ namespace YuzuModDownloader
                                 }
                             };
                             wc.DownloadProgressChanged += (s, e) => UpdateProgress(e.ProgressPercentage, $"Downloading {fileName} ...");
-                            await wc.DownloadFileTaskAsync(modDownloadUrl, $"{UserDirPath}/load/{titleId}/{fileName}");
+                            await wc.DownloadFileTaskAsync(modDownloadUrl, $"{ModDirPath}/{titleId}/{fileName}");
                         }
                     }
                 }
             }
         }
 
-        private void DeleteModData(string path)
+        public void DeleteDownloadedModArchives()
         {
-            DirectoryInfo dir = new DirectoryInfo(path);
-
-            foreach (FileInfo fi in dir.GetFiles())
+            // loop through each title_id
+            // delete archives from within title_id folder
+            foreach (var subDirectory in Directory.GetDirectories(ModDirPath))
             {
-                fi.Delete();
-            }
-
-            foreach (DirectoryInfo di in dir.GetDirectories())
-            {
-                DeleteModData(di.FullName);
-                di.Delete();
+                DirectoryUtilities.DeleteFiles(subDirectory, ".zip", ".rar", ".7z");
             }
         }
 
+        private void DeleteModData(string path)
+        {
+            DirectoryUtilities.DeleteDirectory(path, true);
+        }
+
+        private string GetModPath(string baseDirPath)
+        {
+            // read in qt-config.ini 
+            // extract value from load_directory key 
+            // format and return path 
+            string configPath = $@"{baseDirPath}\config\qt-config.ini";
+            var ini = new IniFile(configPath);
+            string modPath = ini.Read("load_directory", "Data%20Storage").Replace(@"\\", @"\");
+            return modPath;
+        }
 
         //private string GetGameBananaDownloadUrl(string url, out string fileName)
         //{

@@ -38,21 +38,25 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.yuzuWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkClearModDataLocation = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.chkDeleteModArchives = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnDownload
             // 
+            this.btnDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDownload.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDownload.Image = ((System.Drawing.Image)(resources.GetObject("btnDownload.Image")));
             this.btnDownload.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnDownload.Location = new System.Drawing.Point(12, 121);
+            this.btnDownload.Location = new System.Drawing.Point(12, 141);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(340, 63);
             this.btnDownload.TabIndex = 0;
@@ -63,8 +67,10 @@
             // 
             // lblProgress
             // 
+            this.lblProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblProgress.AutoSize = true;
-            this.lblProgress.Location = new System.Drawing.Point(12, 76);
+            this.lblProgress.Location = new System.Drawing.Point(12, 96);
             this.lblProgress.Name = "lblProgress";
             this.lblProgress.Size = new System.Drawing.Size(58, 13);
             this.lblProgress.TabIndex = 1;
@@ -72,7 +78,9 @@
             // 
             // pbarProgress
             // 
-            this.pbarProgress.Location = new System.Drawing.Point(12, 92);
+            this.pbarProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbarProgress.Location = new System.Drawing.Point(12, 112);
             this.pbarProgress.Name = "pbarProgress";
             this.pbarProgress.Size = new System.Drawing.Size(340, 23);
             this.pbarProgress.TabIndex = 4;
@@ -107,6 +115,7 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.yuzuWebsiteToolStripMenuItem,
+            this.checkForUpdatesToolStripMenuItem,
             this.toolStripSeparator1,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -116,28 +125,39 @@
             // yuzuWebsiteToolStripMenuItem
             // 
             this.yuzuWebsiteToolStripMenuItem.Name = "yuzuWebsiteToolStripMenuItem";
-            this.yuzuWebsiteToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.yuzuWebsiteToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.yuzuWebsiteToolStripMenuItem.Text = "Yuzu Website";
             this.yuzuWebsiteToolStripMenuItem.Click += new System.EventHandler(this.YuzuWebsiteToolStripMenuItem_Click);
+            // 
+            // checkForUpdatesToolStripMenuItem
+            // 
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.CheckForUpdatesToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(142, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(168, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.chkDeleteModArchives);
             this.groupBox1.Controls.Add(this.chkClearModDataLocation);
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(340, 46);
+            this.groupBox1.Size = new System.Drawing.Size(340, 66);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
@@ -152,11 +172,21 @@
             this.chkClearModDataLocation.Text = "Clear Mod Data Location";
             this.chkClearModDataLocation.UseVisualStyleBackColor = true;
             // 
+            // chkDeleteModArchives
+            // 
+            this.chkDeleteModArchives.AutoSize = true;
+            this.chkDeleteModArchives.Location = new System.Drawing.Point(6, 42);
+            this.chkDeleteModArchives.Name = "chkDeleteModArchives";
+            this.chkDeleteModArchives.Size = new System.Drawing.Size(188, 17);
+            this.chkDeleteModArchives.TabIndex = 2;
+            this.chkDeleteModArchives.Text = "Delete Downloaded Mod Archives";
+            this.chkDeleteModArchives.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 196);
+            this.ClientSize = new System.Drawing.Size(364, 216);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pbarProgress);
             this.Controls.Add(this.lblProgress);
@@ -194,6 +224,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkClearModDataLocation;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkDeleteModArchives;
     }
 }
 

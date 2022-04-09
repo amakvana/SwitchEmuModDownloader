@@ -19,5 +19,5 @@
 
 ## Usage 
 1. Run YuzuModDownloader.exe
-2. Configure your preferred options
+2. Configure your preferred Options
 3. Click on ```Download Yuzu Game Mods``` 
