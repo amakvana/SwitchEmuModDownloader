@@ -13,8 +13,8 @@ All notable changes to this project will be documented in this file.
 * Rewrote method to identify Mod Directory root - now reads `qt-config.ini` and uses the `load_directory` key value
 * UI Tweaks
 ### Fixed
-* Bug where mods did not extract when filepaths contained spaces 
-* Rare error parsing GameTitleIDs.xml
+* Bug where Mods did not extract properly when filepaths contained spaces 
+* Rare error parsing `GameTitleIDs.xml`
 * Other minor bug fixes 
 
 <br>
