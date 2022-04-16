@@ -24,8 +24,8 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Desktop/Laptop (please complete the following information):**
- - OS: [e.g. Windows 10, Windows 7]
- - Yuzu Version [e.g. mainline 500, EA 1000]
+ - OS: [e.g. Windows 11, Windows 10, Windows 7, etc.]
+ - Yuzu Version [e.g. mainline 900, EA 2500]
  - Yuzu Standalone or Installed?
  - Game Title [e.g. Super Smash Bros. Ultimate]
  - Game Title ID [0xXXXXXXXXXXXXXXXX - found underneath the title in games list within Yuzu]
