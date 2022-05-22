@@ -35,7 +35,7 @@ Requires:
 * [Visual C++ 2019 X64 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe).
 
 ## Installation
-Extract contents of the YuzuModDownloader.zip file into your `Yuzu Root Folder` then refer to the [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md).
+Extract the entire contents of the YuzuModDownloader.zip file and place it into your `Yuzu Root Folder` then refer to the [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md).
 
 ![YuzuModDownloaderSetupAnimated](images/ymd-setup.gif)
 ![YuzuModDownloaderSetup](images/ymd-setup.png)
