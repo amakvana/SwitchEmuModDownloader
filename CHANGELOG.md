@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- Unhandled Exception error for some users when downloading 7-Zip prerequisite
+- [Issue #17](https://github.com/amakvana/YuzuModDownloader/issues/17) Unhandled Exception error for some users when downloading 7-Zip prerequisite
 
 <br>
 
