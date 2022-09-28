@@ -9,7 +9,7 @@ namespace YuzuModDownloader
     // Author: Danny Beckett 
     // URL: https://stackoverflow.com/a/14906422
 
-    class IniFile 
+    public sealed class IniFile 
     {
         private readonly string Path;
         private readonly string Exe = Assembly.GetExecutingAssembly().GetName().Name;
