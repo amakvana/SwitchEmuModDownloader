@@ -1,9 +1,10 @@
 # Yuzu Mod Downloader Guide
 
 ## Requirements
-* Latest [Microsoft .NET Framework](https://go.microsoft.com/fwlink/?linkid=2088631)
-* Latest [Yuzu](https://yuzu-emu.org/downloads/), setup and [configured](https://www.youtube.com/watch?v=93xsKERji60)
-* [Visual C++ 2019 X64 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe)
+- Latest [7-Zip](https://www.7-zip.org/a/7z2201-x64.msi) installed.
+- Latest [Microsoft .NET Framework](https://go.microsoft.com/fwlink/?linkid=2088631) installed.
+- Latest [Visual C++ X64 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe) installed.
+- Latest [Yuzu](https://yuzu-emu.org/downloads/) installed, setup and [configured](https://youtu.be/kSVlTC1mO9w).
 
 ## Methodology 
 * Reads current games imported into Yuzu
