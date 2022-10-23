@@ -11,9 +11,19 @@ Perfect for those who need to download Switch enhancement/workaround mods from t
 
 Compatible with both the standalone and installed versions of Yuzu.
 
-## Overview
-
 ![YuzuModDownloaderAnimated](images/ymd.gif)
+
+## Table of Contents 
+* [Overview](#overview) 
+  * [Methodology](#methodology)
+  * [Usage](#usage)
+* [Download](#downloads)
+* [Installation - GIF Tutorial](#installation)
+* [Installation - YouTube Tutorial](#installation---youtube-guide)
+* [User Guide](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md)
+* [Acknowledgements](#acknowledgements) 
+
+## Overview
 
 ### Methodology
 
