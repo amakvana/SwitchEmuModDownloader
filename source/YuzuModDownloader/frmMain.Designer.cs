@@ -36,17 +36,21 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearModDataLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteDownloadedModArchivesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.experimentalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.yuzuWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chkClearModDataLocation = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.chkDeleteModArchives = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cboModRepos = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnDownload
@@ -56,7 +60,7 @@
             this.btnDownload.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDownload.Image = ((System.Drawing.Image)(resources.GetObject("btnDownload.Image")));
             this.btnDownload.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnDownload.Location = new System.Drawing.Point(12, 141);
+            this.btnDownload.Location = new System.Drawing.Point(12, 124);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(340, 63);
             this.btnDownload.TabIndex = 0;
@@ -70,7 +74,7 @@
             this.lblProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblProgress.AutoSize = true;
-            this.lblProgress.Location = new System.Drawing.Point(12, 96);
+            this.lblProgress.Location = new System.Drawing.Point(12, 79);
             this.lblProgress.Name = "lblProgress";
             this.lblProgress.Size = new System.Drawing.Size(58, 13);
             this.lblProgress.TabIndex = 1;
@@ -80,7 +84,7 @@
             // 
             this.pbarProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbarProgress.Location = new System.Drawing.Point(12, 112);
+            this.pbarProgress.Location = new System.Drawing.Point(12, 95);
             this.pbarProgress.Name = "pbarProgress";
             this.pbarProgress.Size = new System.Drawing.Size(340, 23);
             this.pbarProgress.TabIndex = 4;
@@ -89,9 +93,11 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.optionsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.ShowItemToolTips = true;
             this.menuStrip1.Size = new System.Drawing.Size(364, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
@@ -110,6 +116,52 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generalToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.experimentalToolStripMenuItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // generalToolStripMenuItem
+            // 
+            this.generalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearModDataLocationToolStripMenuItem,
+            this.deleteDownloadedModArchivesToolStripMenuItem});
+            this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
+            this.generalToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.generalToolStripMenuItem.Text = "General";
+            // 
+            // clearModDataLocationToolStripMenuItem
+            // 
+            this.clearModDataLocationToolStripMenuItem.CheckOnClick = true;
+            this.clearModDataLocationToolStripMenuItem.Name = "clearModDataLocationToolStripMenuItem";
+            this.clearModDataLocationToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.clearModDataLocationToolStripMenuItem.Text = "Clear Mod Data Location";
+            // 
+            // deleteDownloadedModArchivesToolStripMenuItem
+            // 
+            this.deleteDownloadedModArchivesToolStripMenuItem.Checked = true;
+            this.deleteDownloadedModArchivesToolStripMenuItem.CheckOnClick = true;
+            this.deleteDownloadedModArchivesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.deleteDownloadedModArchivesToolStripMenuItem.Name = "deleteDownloadedModArchivesToolStripMenuItem";
+            this.deleteDownloadedModArchivesToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.deleteDownloadedModArchivesToolStripMenuItem.Text = "Delete Downloaded Mod Archives";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(139, 6);
+            // 
+            // experimentalToolStripMenuItem
+            // 
+            this.experimentalToolStripMenuItem.Name = "experimentalToolStripMenuItem";
+            this.experimentalToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.experimentalToolStripMenuItem.Text = "Experimental";
             // 
             // helpToolStripMenuItem
             // 
@@ -148,46 +200,34 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
-            // groupBox1
+            // label1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.chkDeleteModArchives);
-            this.groupBox1.Controls.Add(this.chkClearModDataLocation);
-            this.groupBox1.Location = new System.Drawing.Point(12, 27);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(340, 66);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Options";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Download Server:";
             // 
-            // chkClearModDataLocation
+            // cboModRepos
             // 
-            this.chkClearModDataLocation.AutoSize = true;
-            this.chkClearModDataLocation.Location = new System.Drawing.Point(6, 19);
-            this.chkClearModDataLocation.Name = "chkClearModDataLocation";
-            this.chkClearModDataLocation.Size = new System.Drawing.Size(144, 17);
-            this.chkClearModDataLocation.TabIndex = 0;
-            this.chkClearModDataLocation.Text = "Clear Mod Data Location";
-            this.chkClearModDataLocation.UseVisualStyleBackColor = true;
-            // 
-            // chkDeleteModArchives
-            // 
-            this.chkDeleteModArchives.AutoSize = true;
-            this.chkDeleteModArchives.Location = new System.Drawing.Point(6, 42);
-            this.chkDeleteModArchives.Name = "chkDeleteModArchives";
-            this.chkDeleteModArchives.Size = new System.Drawing.Size(188, 17);
-            this.chkDeleteModArchives.TabIndex = 2;
-            this.chkDeleteModArchives.Text = "Delete Downloaded Mod Archives";
-            this.chkDeleteModArchives.UseVisualStyleBackColor = true;
+            this.cboModRepos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboModRepos.FormattingEnabled = true;
+            this.cboModRepos.Items.AddRange(new object[] {
+            "Official Switch-Mods GitHub Repo",
+            "TheBoy181 GitHub Repo"});
+            this.cboModRepos.Location = new System.Drawing.Point(12, 44);
+            this.cboModRepos.Name = "cboModRepos";
+            this.cboModRepos.Size = new System.Drawing.Size(340, 21);
+            this.cboModRepos.TabIndex = 8;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 216);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(364, 199);
+            this.Controls.Add(this.cboModRepos);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.pbarProgress);
             this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.btnDownload);
@@ -202,8 +242,6 @@
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,11 +259,16 @@
         private System.Windows.Forms.ToolStripMenuItem yuzuWebsiteToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox chkClearModDataLocation;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
-        private System.Windows.Forms.CheckBox chkDeleteModArchives;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cboModRepos;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearModDataLocationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteDownloadedModArchivesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem experimentalToolStripMenuItem;
     }
 }
 

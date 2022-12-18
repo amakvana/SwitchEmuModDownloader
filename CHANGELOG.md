@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.3.0.0] - 2022-12-18
+
+### Added
+
+- New Download Server - [theboy181](https://github.com/theboy181/switch-ptchtxt-mods/)
+- Game version detection for Mod Downloader - currently only compatible with [theboy181](https://github.com/theboy181/switch-ptchtxt-mods/)'s Download Server
+
+### Changed
+
+- Complete refactor of `ModDownloader.cs` to allow modularity via inheritance
+  - `OfficialYuzuModDownloader.cs` handles [Yuzu Switch-Mods Wiki](https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods) mods
+  - `TheBoy181ModDownloader.cs` handles [theboy181](https://github.com/theboy181/switch-ptchtxt-mods/) mods
+- Merged `DirectoryUtilies.cs` into `ModDownloader.cs` as the former became redundant Utility class
+- `Game.cs` now used to pass Game information between methods rather than singular method parameters
+- UI Tweaks
+  - Moved `General Options` from main GUI, into MenuStrip
+  - General options can now be found under `Options` > `General`
+
+### Fixed
+
+- Race condition between Extracting Mods and Deleting Mod Archives - now waits for all 7z processes to exit before processing archive deletion
+- Total Games downloaded MessageBox dialog fixed - now only counts the directories containing mods, rather than total directories within `/load/`
+
+<br>
+
 ## [1.2.0.0] - 2022-09-28
 
 ### Added

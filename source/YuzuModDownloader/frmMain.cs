@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace YuzuModDownloader
@@ -18,11 +19,12 @@ namespace YuzuModDownloader
             CheckAppVersion();
 
             // set UI defaults 
+            cboModRepos.SelectedIndex = 0;
             lblProgress.Text = "";
-            chkDeleteModArchives.Checked = true;
-            toolTip1.SetToolTip(chkClearModDataLocation, "Deletes all existing mods before downloading the latest Yuzu Game Mods");
-            toolTip1.SetToolTip(chkDeleteModArchives, "Deletes all downloaded mod archive files once unpacked");
+            clearModDataLocationToolStripMenuItem.ToolTipText = "Deletes all existing mods before downloading the latest Yuzu Game Mods";
+            deleteDownloadedModArchivesToolStripMenuItem.ToolTipText = "Deletes all downloaded mod archive files once unpacked";
             toolTip1.SetToolTip(btnDownload, "Download Yuzu Game Mods for current switch games dumped");
+            toolTip1.SetToolTip(cboModRepos, "Available repositories to download Yuzu Mods");
         }
 
         private async void btnDownload_Click(object sender, EventArgs e)
@@ -30,22 +32,37 @@ namespace YuzuModDownloader
             // disable form controls
             ToggleControls(false);
 
-            // get prerequisites
-            string gameTitleIDsXml = "GameTitleIDs.xml";
-            var modDownloader = new ModDownloader();
-            modDownloader.UpdateProgress += ModDownloader_UpdateProgress;
-            await modDownloader.DownloadPrerequisitesAsync();
-            await modDownloader.DownloadGameTitleIdDatabaseAsync(gameTitleIDsXml);
-            var gameTitleNameIDs = modDownloader.ReadGameTitleIdDatabase(gameTitleIDsXml);
-
-            // download mods for each game 
             int totalGames = 0;
-            foreach (var g in gameTitleNameIDs)
+            var games = new List<Game>();
+            switch (cboModRepos.SelectedIndex)
             {
-                string titleName = g.Key;
-                string titleId = g.Value;
-                await modDownloader.DownloadTitleModsAsync(titleName, titleId, "https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods", chkClearModDataLocation.Checked);
-                totalGames++;
+                case 0:     // official switch-mods repo
+                    var oymDownloader = new OfficialYuzuModDownloader
+                    {
+                        IsModDataLocationToBeDeleted = clearModDataLocationToolStripMenuItem.Checked,
+                        IsDownloadedModArchivesToBeDeleted = deleteDownloadedModArchivesToolStripMenuItem.Checked
+                    };
+                    oymDownloader.UpdateProgress += ModDownloader_UpdateProgress;
+                    await oymDownloader.DownloadPrerequisitesAsync();
+                    games = await oymDownloader.ReadGameTitlesDatabaseAsync();
+                    await oymDownloader.DownloadModsAsync(games);
+                    totalGames = games.Where(g => g.ModDownloadUrls.Count > 0).Count();
+                    break;
+
+                case 1:     // theboy181 repo
+                    var tb181mDownloader = new TheBoy181ModDownloader
+                    {
+                        IsModDataLocationToBeDeleted = clearModDataLocationToolStripMenuItem.Checked,
+                        IsDownloadedModArchivesToBeDeleted = deleteDownloadedModArchivesToolStripMenuItem.Checked
+                    };
+                    tb181mDownloader.UpdateProgress += ModDownloader_UpdateProgress;
+                    await tb181mDownloader.DownloadPrerequisitesAsync();
+                    games = await tb181mDownloader.ReadGameTitlesDatabaseAsync();
+                    await tb181mDownloader.DownloadModsAsync(games);
+                    totalGames = games.Where(g => g.ModDownloadUrls.Count > 0).Count();
+                    break;
+
+                default: break;  // do nothing 
             }
 
             // tell user mods have been downloaded 
@@ -53,9 +70,7 @@ namespace YuzuModDownloader
                             $"To toggle specific game mods On/Off:{Environment.NewLine}" +
                             $"Run yuzu > Right-Click on a game > Properties > Add-Ons", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // cleanup & reset ui 
-            if (chkDeleteModArchives.Checked) modDownloader.DeleteDownloadedModArchives();
-            if (File.Exists(gameTitleIDsXml)) File.Delete(gameTitleIDsXml);
+            // reset ui
             ToggleControls(true);
         }
 
@@ -92,12 +107,11 @@ namespace YuzuModDownloader
 
         private void ToggleControls(bool value)
         {
+            cboModRepos.Enabled = value;
             btnDownload.Enabled = value;
-            chkClearModDataLocation.Enabled = value;
-            chkDeleteModArchives.Enabled = value;
+            optionsToolStripMenuItem.Enabled = value;
             lblProgress.Text = "";
             pbarProgress.Value = 0;
-
         }
 
         private void CheckAppVersion(bool manualCheck = false)

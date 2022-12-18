@@ -7,21 +7,31 @@
 
 A One-Click Yuzu Game Mod downloader for Switch games.
 
-Perfect for those who need to download Switch enhancement/workaround mods from the [Yuzu Switch-Mods Wiki](https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods) for their games.
+Perfect for those who need to download Switch enhancement/workaround mods from the [Yuzu Switch-Mods Wiki](https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods) and Alternative Mirrros for their games.
 
 Compatible with both the standalone and installed versions of Yuzu.
 
 ![YuzuModDownloaderAnimated](images/ymd.gif)
 
-## Table of Contents 
-* [Overview](#overview) 
-  * [Methodology](#methodology)
-  * [Usage](#usage)
-* [Download](#downloads)
-* [Installation - GIF Tutorial](#installation)
-* [Installation - YouTube Tutorial](#installation---youtube-guide)
-* [User Guide](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md)
-* [Acknowledgements](#acknowledgements) 
+## Table of Contents
+
+- [Acknowledgements](#acknowledgements)
+- [Overview](#overview)
+  - [Methodology](#methodology)
+  - [Usage](#usage)
+- [Download](#downloads)
+- [Installation - GIF Tutorial](#installation)
+- [Installation - YouTube Tutorial](#installation---youtube-guide)
+- [User Guide](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md)
+
+## Acknowledgements
+
+Special thanks to the following:
+
+- [Yuzu Team](https://yuzu-emu.org/) - Nintendo Switch Emulator Developers
+- [theboy181](https://github.com/theboy181/) - [Alternative Mods Download Mirror](https://github.com/theboy181/switch-ptchtxt-mods)
+- [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons
+- [Mr. Sujano](https://www.youtube.com/watch?v=q_2ivWN07Kw) - YouTube Installation Guide
 
 ## Overview
 
@@ -62,11 +72,3 @@ YuzuModDownloader does not require Administrator privileges to run.
 ## Installation - YouTube Guide
 
 [![Watch the video](images/ymd-youtube.jpg)](https://youtu.be/q_2ivWN07Kw)
-
-## Acknowledgements
-
-Thanks:
-
-- [Yuzu Team](https://yuzu-emu.org/) - Nintendo Switch Emulator Developers
-- [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons
-- [Mr. Sujano](https://www.youtube.com/watch?v=q_2ivWN07Kw) - YouTube Installation Guide
