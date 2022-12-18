@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- New Download Server - [theboy181](https://github.com/theboy181/switch-ptchtxt-mods/)
+- New Download Server - [theboy181](https://github.com/theboy181/switch-ptchtxt-mods/) - [special thanks](https://github.com/theboy181/switch-ptchtxt-mods/issues/15)
 - Game version detection for Mod Downloader - currently only compatible with [theboy181](https://github.com/theboy181/switch-ptchtxt-mods/)'s Download Server
 
 ### Changed
