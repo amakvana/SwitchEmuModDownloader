@@ -7,7 +7,7 @@
 
 A One-Click Yuzu Game Mod downloader for Switch games.
 
-Perfect for those who need to download Switch enhancement/workaround mods from the [Yuzu Switch-Mods Wiki](https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods) and Alternative Mirrros for their games.
+Perfect for those who need to download Switch enhancement/workaround mods from the [Yuzu Switch-Mods Wiki](https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods) and Alternative Mirrors for their games.
 
 Compatible with both the standalone and installed versions of Yuzu.
 
