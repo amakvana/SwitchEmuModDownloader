@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace YuzuModDownloader
@@ -32,9 +34,12 @@ namespace YuzuModDownloader
             // loop through {ModDirPath} folder & get title names from title Id's
             var games = new List<Game>();
             base.RaiseUpdateProgressDelegate(0, "Scanning Games Library ...");
-            using (var reader = XmlReader.Create(TheBoy181Xml))
-            {
-                while (reader.Read())
+            using (var reader = XmlReader.Create(TheBoy181Xml, new XmlReaderSettings {
+                Async = true,
+                IgnoreComments = true
+            }))
+            { 
+                while (await reader.ReadAsync())
                 {
                     if (!reader.IsStartElement())
                         continue;
@@ -42,9 +47,9 @@ namespace YuzuModDownloader
                     switch (reader.Name)
                     {
                         case "title_id":
-                            string titleId = reader.ReadElementContentAsString();
-                            reader.Read();
-                            string modUrlPath = reader.ReadElementContentAsString();
+                            string titleId = await reader.ReadElementContentAsStringAsync();
+                            await reader.ReadAsync();
+                            string modUrlPath = await reader.ReadElementContentAsStringAsync();
 
                             if (string.IsNullOrWhiteSpace(titleId) || !Directory.Exists($"{base.ModDirectoryPath}/{titleId}"))
                                 break;
@@ -57,7 +62,7 @@ namespace YuzuModDownloader
                                 TitleVersion = titleVersion,
                                 ModDownloadUrls = await GetModDownloadUrls(modUrlPath, titleVersion)   // detect urls for each game and populate the downloads 
                             };
-                            
+
                             games.Add(game);
                             break;
 
@@ -132,6 +137,8 @@ namespace YuzuModDownloader
 
                     // swap /blob/ for /raw/ to access direct download path 
                     url = url.Replace("/blob/", "/raw/");
+                    url = url.Replace("&#39;", "'");        // fix those pesky apostrophes 
+
                     downloadUrls.Add(new Uri(url));
                 }
             }

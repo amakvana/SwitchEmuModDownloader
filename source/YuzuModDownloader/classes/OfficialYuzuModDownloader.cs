@@ -33,9 +33,13 @@ namespace YuzuModDownloader
             // loop through {ModDirPath} folder & get title names from title Id's
             var games = new List<Game>();
             base.RaiseUpdateProgressDelegate(0, "Scanning Games Library ...");
-            using (var reader = XmlReader.Create(GameTitleIDsXml))
+            using (var reader = XmlReader.Create(GameTitleIDsXml, new XmlReaderSettings
             {
-                while (reader.Read())
+                Async = true,
+                IgnoreComments = true
+            }))
+            {
+                while (await reader.ReadAsync())
                 {
                     if (!reader.IsStartElement()) 
                         continue;
@@ -43,9 +47,9 @@ namespace YuzuModDownloader
                     switch (reader.Name)
                     {
                         case "title_name":
-                            string titleName = reader.ReadElementContentAsString();
-                            reader.Read();
-                            string titleId = reader.ReadElementContentAsString();
+                            string titleName = await reader.ReadElementContentAsStringAsync();
+                            await reader.ReadAsync();
+                            string titleId = await reader.ReadElementContentAsStringAsync();
 
                             if (string.IsNullOrWhiteSpace(titleId) || !Directory.Exists($"{base.ModDirectoryPath}/{titleId}"))
                                 break;

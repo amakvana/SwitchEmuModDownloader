@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.3.1.0] - 2022-12-21
+
+### Changed
+
+- Tweaked `ReadGameTitlesDatabaseAsync` method within `TheBoy181ModDownloader.cs` and `OfficialYuzuModDownloader.cs`
+  - Reads XML files asynchronously - improves reading performance and stops GUI main thread locking up
+  - Ignores XML comments within XML files - prevents comment tags causing parsing errors
+
+### Fixed
+
+- [Issue #21](https://github.com/amakvana/YuzuModDownloader/issues/21) Unhandled Exception error when downloading mods with URLs containing certain special characters from `theboy181`'s server
+
+<br>
+
 ## [1.3.0.0] - 2022-12-18
 
 ### Added
@@ -13,7 +27,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Complete refactor of `ModDownloader.cs` to allow modularity via inheritance
+- Complete refactor of `ModDownloader.cs` to allow modularity via Inheritance
   - `OfficialYuzuModDownloader.cs` handles [Yuzu Switch-Mods Wiki](https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods) mods
   - `TheBoy181ModDownloader.cs` handles [theboy181](https://github.com/theboy181/switch-ptchtxt-mods/) mods
 - Merged `DirectoryUtilies.cs` into `ModDownloader.cs` as the former became redundant Utility class
