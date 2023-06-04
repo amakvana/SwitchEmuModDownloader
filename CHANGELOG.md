@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.4.0.0] - 2023-06-04
+
+### Added
+
+- New Download Server - [HolographicWings TOTK](https://github.com/HolographicWings/TOTK-Mods-collection/)
+  - Automatically detects current game version and pulls game version mod package
+- Complete rewrite in .NET 7 & AvaloniaUI. Goodbye .NET Framework 4.8.1 - cross-compatible UI, better performance, newer c# features and increased support for await/async model
+- Now supports Linux and SteamOS without needing Proton - thanks [@ssorgatem](https://github.com/amakvana/YuzuModDownloader/issues/19), [@mymeyers03](https://github.com/amakvana/YuzuModDownloader/issues/19), [@MGThePro](https://github.com/amakvana/YuzuModDownloader/issues/19), [@Redhawk18](https://github.com/amakvana/YuzuModDownloader/issues/19), [@ProNoob135](https://github.com/amakvana/YuzuModDownloader/issues/19), [@Rikj000](https://github.com/amakvana/YuzuModDownloader/issues/19) and [@cimba007](https://github.com/amakvana/YuzuModDownloader/issues/19)
+
+### Changed
+
+- `YuzuModDownloader` now bundles all .dll dependencies inside the executable - no need to drag any additional .dll files into `YuzuModDownloader`'s working directory
+- `AppUpdater.cs` now handles disconnections and VPN killswitches, terminates the app
+- Optimised several methods to utilise await/async.
+- Retired `WebClient`, now utilises `IHttpClientFactory` to pull data - faster and memory efficient
+- Further GUI tweaks to improve UX
+  - ProgressText now streamlined inside ProgressBar
+- Removed redundant code from codebase
+- Optimised several methods to utilise await/async.
+
+### Fixed
+
+- Better error handling
+
+<br>
+
 ## [1.3.1.0] - 2022-12-21
 
 ### Changed

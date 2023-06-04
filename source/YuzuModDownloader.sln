@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30611.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuzuModDownloader", "YuzuModDownloader\YuzuModDownloader.csproj", "{AA84FF1C-778F-42B6-872A-2114014D7B73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuzuModDownloader", "YuzuModDownloader\YuzuModDownloader.csproj", "{9765D5A4-1BB4-493C-85E2-29E604A914D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AA84FF1C-778F-42B6-872A-2114014D7B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA84FF1C-778F-42B6-872A-2114014D7B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA84FF1C-778F-42B6-872A-2114014D7B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA84FF1C-778F-42B6-872A-2114014D7B73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9765D5A4-1BB4-493C-85E2-29E604A914D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9765D5A4-1BB4-493C-85E2-29E604A914D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9765D5A4-1BB4-493C-85E2-29E604A914D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9765D5A4-1BB4-493C-85E2-29E604A914D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {51DB8B76-EBDF-43F6-A06A-43650647323B}
+		SolutionGuid = {BCEA6A86-ECC2-4EE8-8081-4F1EFE7EAC5C}
 	EndGlobalSection
 EndGlobal

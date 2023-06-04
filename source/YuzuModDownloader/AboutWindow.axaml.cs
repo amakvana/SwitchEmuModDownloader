@@ -1,38 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
 using System.Reflection;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace YuzuModDownloader
 {
-    partial class frmAbout : Form
+    public partial class AboutWindow : Window
     {
-        public frmAbout()
+        public AboutWindow()
         {
             InitializeComponent();
-            this.Text = String.Format("About {0}", AssemblyTitle);
-            this.labelProductName.Text = AssemblyProduct;
-            this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-            //this.labelCopyright.Text = AssemblyCopyright;
-            this.labelCompanyName.Text = AssemblyCompany;
-            //this.textBoxDescription.Text = AssemblyDescription;
-            this.textBoxDescription.Text = String.Format("Yuzu Mod Downloader{0}" +
-                "A One-Click Yuzu Mod downloader for Switch Game Mods (Unofficial) by amakvana{0}{0}" +
+
+            // set form values
+            this.Title = $"About {AssemblyTitle}";
+            LblProductName.Content = AssemblyProduct;
+            LblVersion.Content = $"Version: {AssemblyVersion}";
+            LblCopyright.Content = AssemblyCopyright;
+            LblCompanyName.Content = AssemblyCompany;
+            TxtDescription.Text = string.Format(
+                "Yuzu Mod Downloader{0}" +
+                "A One-Click Yuzu Mod downloader for Switch Game Mods (Unofficial) by amakvana.{0}{0}" +
                 "https://github.com/amakvana/YuzuModDownloader{0}{0}" +
-                "This software is licensed under GNU GLPv3{0}" +
-                "Source code is available in repository above{0}{0}" +
-                "Credits:{0}" +
-                "Agus Raharjo (https://www.iconfinder.com/agusraharj), Icon{0}{0}" +
-                "Disclaimer:{0}This software comes with no warranty, express or implied nor does the author makes no representation of warranties. The author claims no responsibility for damages resulting from any use or misuse of the software.", Environment.NewLine);
+                "This software is licensed under GNU GPL-3.0.{0}" +
+                "Source code is available in repository above.{0}{0}" +
+                "Credits: https://github.com/amakvana/YuzuModDownloader#acknowledgements{0}{0}" +
+                "Disclaimer:{0}This software comes with no warranty, express or implied nor does the author makes no representation of warranties. The author claims no responsibility for damages resulting from any use or misuse of the software."
+                , Environment.NewLine);
+        }
+
+        public void BtnOK_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
 
         #region Assembly Attribute Accessors
 
-        public string AssemblyTitle
+        public static string AssemblyTitle
         {
             get
             {
@@ -45,19 +47,13 @@ namespace YuzuModDownloader
                         return titleAttribute.Title;
                     }
                 }
-                return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+                return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
             }
         }
 
-        public string AssemblyVersion
-        {
-            get
-            {
-                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            }
-        }
+        public static string AssemblyVersion => Assembly.GetExecutingAssembly().GetName().Version?.ToString()!;
 
-        public string AssemblyDescription
+        public static string AssemblyDescription
         {
             get
             {
@@ -70,7 +66,7 @@ namespace YuzuModDownloader
             }
         }
 
-        public string AssemblyProduct
+        public static string AssemblyProduct
         {
             get
             {
@@ -83,7 +79,7 @@ namespace YuzuModDownloader
             }
         }
 
-        public string AssemblyCopyright
+        public static string AssemblyCopyright
         {
             get
             {
@@ -96,7 +92,7 @@ namespace YuzuModDownloader
             }
         }
 
-        public string AssemblyCompany
+        public static string AssemblyCompany
         {
             get
             {
@@ -110,9 +106,5 @@ namespace YuzuModDownloader
         }
         #endregion
 
-        private void okButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
     }
 }

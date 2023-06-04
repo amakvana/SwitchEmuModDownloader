@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace YuzuModDownloader
+﻿namespace YuzuModDownloader.Classes.Entities
 {
     public sealed class Game
     {
@@ -13,7 +10,7 @@ namespace YuzuModDownloader
         /// Absolute path to the current games' Mod Data Location
         /// </summary>
         public string ModDataLocation { get; set; } = "";
-        
+
         /// <summary>
         /// A list containing all downloadable mods for the current game 
         /// </summary>

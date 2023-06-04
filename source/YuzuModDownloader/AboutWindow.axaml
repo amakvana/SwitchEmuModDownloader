@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Width="500" Height="350"
+        x:Class="YuzuModDownloader.AboutWindow"
+        Title="AboutWindow"
+        CanResize="False"
+        Icon="/Assets/icon.ico"
+        WindowStartupLocation="CenterOwner">
+
+  <Border Padding="15">
+    <Grid ColumnDefinitions="0.75*,1*,0.5*" RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
+      <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="6" Source="/Assets/icon.png" UseLayoutRounding="True" RenderOptions.BitmapInterpolationMode="HighQuality" VerticalAlignment="Center" Margin="0,0,15,0"/>
+      <Label Grid.Column="1" Grid.Row="0" Name="LblProductName" Margin="0,0,0,10">Product Name</Label>
+      <Label Grid.Column="1" Grid.Row="1" Name="LblVersion" Margin="0,0,0,10">Version</Label>
+      <Label Grid.Column="1" Grid.Row="2" Name="LblCopyright" Margin="0,0,0,10">Copyright</Label>
+      <Label Grid.Column="1" Grid.Row="3" Name="LblCompanyName" Margin="0,0,0,10">Company Name</Label>
+      <TextBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Name="TxtDescription" IsReadOnly="True" TextWrapping="Wrap" Margin="0,0,0,10">Description</TextBox>
+      <Button Grid.Column="2" Grid.Row="5" Name="BtnOK" Click="BtnOK_Click">OK</Button>
+    </Grid> 
+  </Border>
+  
+</Window>

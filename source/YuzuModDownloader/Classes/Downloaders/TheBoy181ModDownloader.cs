@@ -1,25 +1,28 @@
 ﻿using HtmlAgilityPack;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml;
+using YuzuModDownloader.Classes.Entities;
 
-namespace YuzuModDownloader
+namespace YuzuModDownloader.Classes.Downloaders
 {
-    public class TheBoy181ModDownloader : ModDownloader
+    public sealed class TheBoy181ModDownloader : ModDownloader
     {
-        private const string BaseModsRepoUrl = "https://github.com/theboy181/switch-ptchtxt-mods/tree/main";
         private const string TheBoy181Xml = "theboy181.xml";
+        private readonly IHttpClientFactory _clientFactory;
+        private readonly HtmlDocument _htmlDoc = new()
+        {
+            DisableServerSideCode = true
+        };
 
-        public TheBoy181ModDownloader() : base() { }
+        public TheBoy181ModDownloader(IHttpClientFactory clientFactory, bool isModDataLocationToBeDeleted, bool isDownloadedModArchivesToBeDeleted)
+            : base(clientFactory, isModDataLocationToBeDeleted, isDownloadedModArchivesToBeDeleted)
+        {
+            _clientFactory = clientFactory;
+        }
 
         public new async Task DownloadPrerequisitesAsync()
         {
             await base.DownloadPrerequisitesAsync();
-            await base.DownloadGameDatabaseAsync("https://raw.githubusercontent.com/amakvana/YuzuModDownloader/main/assets/theboy181.xml", TheBoy181Xml);
+            await base.DownloadGameDatabaseAsync($"assets/{TheBoy181Xml}");
         }
 
         public new async Task DownloadModsAsync(List<Game> games)
@@ -33,12 +36,13 @@ namespace YuzuModDownloader
             // detect yuzu user directory 
             // loop through {ModDirPath} folder & get title names from title Id's
             var games = new List<Game>();
-            base.RaiseUpdateProgressDelegate(0, "Scanning Games Library ...");
-            using (var reader = XmlReader.Create(TheBoy181Xml, new XmlReaderSettings {
+            base.RaiseUpdateProgress(0, "Scanning Games Library ...");
+            using (var reader = XmlReader.Create(TheBoy181Xml, new XmlReaderSettings
+            {
                 Async = true,
                 IgnoreComments = true
             }))
-            { 
+            {
                 while (await reader.ReadAsync())
                 {
                     if (!reader.IsStartElement())
@@ -51,26 +55,25 @@ namespace YuzuModDownloader
                             await reader.ReadAsync();
                             string modUrlPath = await reader.ReadElementContentAsStringAsync();
 
-                            if (string.IsNullOrWhiteSpace(titleId) || !Directory.Exists($"{base.ModDirectoryPath}/{titleId}"))
+                            if (string.IsNullOrWhiteSpace(titleId) || !Directory.Exists(Path.Combine(base.ModDirectoryPath, titleId)))
                                 break;
 
                             string titleVersion = await GetTitleVersion(titleId);
-                            var game = new Game
+                     
+                            games.Add(new Game
                             {
                                 TitleID = titleId,
-                                ModDataLocation = $"{base.ModDirectoryPath}/{titleId}",
+                                ModDataLocation = Path.Combine(base.ModDirectoryPath, titleId),
                                 TitleVersion = titleVersion,
                                 ModDownloadUrls = await GetModDownloadUrls(modUrlPath, titleVersion)   // detect urls for each game and populate the downloads 
-                            };
-
-                            games.Add(game);
+                            });
                             break;
 
                         default: break;     // do nothing 
                     }
                 }
             }
-            base.RaiseUpdateProgressDelegate(100, "Done");
+            base.RaiseUpdateProgress(100, "Scanning Games Library ...");
             return games;
         }
 
@@ -81,25 +84,24 @@ namespace YuzuModDownloader
         /// <returns>Title Version if exists, otherise returns 1.0.0</returns>
         private async Task<string> GetTitleVersion(string titleId)
         {
-            string pv = $@"{base.UserDirPath}/cache/game_list/{titleId}.pv.txt";
+            string pv = Path.Combine(base.UserDirPath, "cache", "game_list", $"{titleId}.pv.txt");
             string defaultVersion = "1.0.0";
 
             if (!File.Exists(pv)) 
                 return defaultVersion;
 
-            using (var f = File.OpenRead(pv))
-            using (var reader = new StreamReader(f))
+            using (var reader = new StreamReader(pv))
             {
-                string line;
-                while ((line = await reader.ReadLineAsync()) != null)
+                string? line;
+                while ((line = await reader.ReadLineAsync()) is not null)
                 {
-                    if (!line.StartsWith("Update (", StringComparison.Ordinal))
+                    if (!line.StartsWith("Update (", StringComparison.OrdinalIgnoreCase))
                         continue;
 
                     // extract version from line containing Update (X.X.X)
                     int from = line.IndexOf("(") + 1;
                     int to = line.LastIndexOf(")");
-                    return line.Substring(from, to - from);     // extract and return X.X.X 
+                    return line[from..to];     // extract and return X.X.X 
                 }                
             }
 
@@ -115,21 +117,29 @@ namespace YuzuModDownloader
         {
             // fetch all download links for current game
 
-            // read switch-mods webpage and get download links for current game
-            var web = new HtmlWeb();
-            var htmlDoc = await web.LoadFromWebAsync($@"{BaseModsRepoUrl}/{modUrlPath}/{titleVersion}");
-            var nodes = htmlDoc.DocumentNode.SelectNodes($@"//h2[@id='files']/following::a[1]/following::div[2]//div[@role='rowheader']//a");
-            //var nodes = htmlDoc.DocumentNode.SelectNodes($@"//h2[contains(., {Quote}Files{Quote})]/following::a[1]/following::div[2]//div[@role='rowheader']//a");
+            // download the basemodsrepo document once 
+            using var client = _clientFactory.CreateClient("GitHub-TheBoy181");
+            var response = await client.GetAsync($@"{modUrlPath}/{titleVersion}", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            
+            // if response is 404, return empty list 
+            if (!response.IsSuccessStatusCode)
+                return new List<Uri>();
+            
+            // response is valid, read it and get download links for current game
+            var html = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            _htmlDoc.LoadHtml(html);
+            var nodes = _htmlDoc.DocumentNode.SelectNodes($@"//h2[@id='files']/following::a[1]/following::div[2]//div[@role='rowheader']//a");
 
             // if no links found, return empty list 
-            if (nodes == null) return new List<Uri>();
+            if (nodes is null) 
+                return new List<Uri>();
 
             //otherwise process links and add them into downloadUrls list
             var downloadUrls = new List<Uri>();
-            foreach (HtmlNode node in nodes)
+            foreach (var node in nodes)
             {
                 string url = node.Attributes["href"].Value.Trim();
-                if (url.EndsWith(".zip") || url.EndsWith(".rar") || url.EndsWith(".7z"))
+                if (url.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) || url.EndsWith(".rar", StringComparison.OrdinalIgnoreCase) || url.EndsWith(".7z", StringComparison.OrdinalIgnoreCase))
                 {
                     // prepend github.com to url 
                     if (!url.StartsWith("https://github.com", StringComparison.Ordinal))
@@ -145,7 +155,7 @@ namespace YuzuModDownloader
             return downloadUrls;
         }
 
-        private void CleanUp()
+        private static void CleanUp()
         {
             if (File.Exists(TheBoy181Xml))
                 File.Delete(TheBoy181Xml);
