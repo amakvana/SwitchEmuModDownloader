@@ -1,4 +1,6 @@
+![GitHub OS](https://img.shields.io/static/v1?label=OS&message=WINDOWS%20|%20LINUX%20|%20STEAMOS&style=for-the-badge&color=brightgreen)
 ![GitHub Release](https://img.shields.io/github/v/release/amakvana/YuzuModDownloader?style=for-the-badge)
+<br>
 ![GitHub license](https://img.shields.io/github/license/amakvana/YuzuModDownloader?style=for-the-badge)
 ![GitHub repo size](https://img.shields.io/github/repo-size/amakvana/YuzuModDownloader?style=for-the-badge)
 ![GitHub all releases](https://img.shields.io/github/downloads/amakvana/YuzuModDownloader/total?style=for-the-badge)
