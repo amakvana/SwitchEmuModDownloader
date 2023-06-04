@@ -13,7 +13,7 @@ Perfect for those who need to download Switch enhancement/workaround mods from t
 
 Compatible with both the standalone and installed versions of Yuzu.
 
-![YuzuModDownloaderAnimated](images/ymd.gif)
+![YuzuModDownloaderAnimated](images/ymd-1400.gif)
 
 ## Table of Contents
 
