@@ -313,6 +313,10 @@ namespace YuzuModDownloader.Classes.Downloaders
                     // if linux, don't replace any separators, just return  
                     if (OperatingSystem.IsLinux())
                     {
+                        /* To handle directory path enclosed within double quotes, such as
+                         * load_directory="/home/username/.var/app/org.yuzu_emu.yuzu/data/yuzu/load"
+                         */
+                        parsedLine = parsedLine.Trim('"');
                         return parsedLine;
                         //return line.Split('=').Last();
                     }
