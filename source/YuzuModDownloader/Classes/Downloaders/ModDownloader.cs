@@ -261,13 +261,25 @@ namespace YuzuModDownloader.Classes.Downloaders
         private static string GetUserDirectoryPath()
         {
             // if path is Linux, get path and return it 
-            if (OperatingSystem.IsLinux())
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "yuzu");
-
-            // otherwise, assume Windows 
-            return Directory.Exists("user") ?
-                Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)!, "user") :
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "yuzu");
+            if (OperatingSystem.IsLinux()) {
+                // Standard Yuzu Installation : Path to $XDG_CONFIG_HOME/yuzu
+                string systemConfigDirectory = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "yuzu");
+                // Flatpak version of Yuzu : Path to $HOME/.var/app/org.yuzu_emu.yuzu/config/yuzu
+                string flatpakConfigDirectory = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),".var/app/org.yuzu_emu.yuzu/config","yuzu");
+                if (Directory.Exists(systemConfigDirectory)) {
+                    return systemConfigDirectory;
+                }else if(Directory.Exists(flatpakConfigDirectory)){
+                    return flatpakConfigDirectory;
+                }else {
+                    Console.Error.WriteLine("Could not find path to yuzu config directory");
+                    return systemConfigDirectory;
+                }
+            }else {
+                // otherwise, assume Windows
+                return Directory.Exists("user") ?
+                    Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)!, "user") :
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "yuzu");
+            }
         }
 
         /// <summary>
