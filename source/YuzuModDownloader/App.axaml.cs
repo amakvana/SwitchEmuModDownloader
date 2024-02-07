@@ -35,13 +35,6 @@ namespace YuzuModDownloader
                     //client.Timeout = TimeSpan.FromMinutes(5);
                 });
 
-                services.AddHttpClient("GitHub-TheBoy181", client =>
-                {
-                    client.BaseAddress = new Uri("https://github.com/theboy181/switch-ptchtxt-mods/tree/main/");
-                    client.DefaultRequestHeaders.Add("user-agent", "request");
-                    //client.Timeout = TimeSpan.FromMinutes(5);
-                });
-
                 services.AddHttpClient("GitHub-Api", client =>
                 {
                     client.BaseAddress = new Uri("https://api.github.com/");

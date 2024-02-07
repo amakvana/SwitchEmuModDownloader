@@ -4,21 +4,15 @@ using YuzuModDownloader.Classes.Entities;
 
 namespace YuzuModDownloader.Classes.Downloaders
 {
-    public sealed class OfficialYuzuModDownloader : ModDownloader
+    public sealed class OfficialYuzuModDownloader(IHttpClientFactory clientFactory, bool isModDataLocationToBeDeleted, bool isDownloadedModArchivesToBeDeleted) : ModDownloader(clientFactory, isModDataLocationToBeDeleted, isDownloadedModArchivesToBeDeleted)
     {
         private const string Quote = "\"";
         private const string GameTitleIDsXml = "GameTitleIDs.xml";
-        private readonly IHttpClientFactory _clientFactory;
+        private readonly IHttpClientFactory _clientFactory = clientFactory;
         private readonly HtmlDocument _htmlDoc = new()
         {
              DisableServerSideCode = true
         };
-
-        public OfficialYuzuModDownloader(IHttpClientFactory clientFactory, bool isModDataLocationToBeDeleted, bool isDownloadedModArchivesToBeDeleted) 
-            : base(clientFactory, isModDataLocationToBeDeleted, isDownloadedModArchivesToBeDeleted)
-        {
-            _clientFactory = clientFactory;
-        }
 
         public new async Task DownloadPrerequisitesAsync()
         {
@@ -38,44 +32,44 @@ namespace YuzuModDownloader.Classes.Downloaders
             // loop through {ModDirPath} folder & get title names from title Id's
             var games = new List<Game>();
             base.RaiseUpdateProgress(0, "Scanning Games Library ...");
-            using (var reader = XmlReader.Create(GameTitleIDsXml, new()
+            using var reader = XmlReader.Create(GameTitleIDsXml, new()
             {
                 Async = true,
                 IgnoreComments = true
-            }))
+            });
+
+            // Preload HtmlDocument 
+            await DownloadHtmlDocument();
+
+            // scan xml and compare against preloaded htmldocument 
+            while (await reader.ReadAsync())
             {
-                // Preload HtmlDocument 
-                await DownloadHtmlDocument();
+                if (!reader.IsStartElement())
+                    continue;
 
-                // scan xml and compare against preloaded htmldocument 
-                while (await reader.ReadAsync())
+                switch (reader.Name)
                 {
-                    if (!reader.IsStartElement())
-                        continue;
+                    case "title_name":
+                        string titleName = await reader.ReadElementContentAsStringAsync();
+                        await reader.ReadAsync();
+                        string titleId = await reader.ReadElementContentAsStringAsync();
 
-                    switch (reader.Name)
-                    {
-                        case "title_name":
-                            string titleName = await reader.ReadElementContentAsStringAsync();
-                            await reader.ReadAsync();
-                            string titleId = await reader.ReadElementContentAsStringAsync();
-
-                            if (string.IsNullOrWhiteSpace(titleId) || !Directory.Exists(Path.Combine(base.ModDirectoryPath, titleId)))
-                                break;
-
-                            games.Add(new Game
-                            {
-                                TitleID = titleId,
-                                TitleName = titleName,
-                                ModDataLocation = Path.Combine(base.ModDirectoryPath, titleId),
-                                ModDownloadUrls = GetModDownloadUrls(titleName)   // detect urls for each game and populate the downloads 
-                            });
+                        if (string.IsNullOrWhiteSpace(titleId) || !Directory.Exists(Path.Combine(base.ModDirectoryPath, titleId)))
                             break;
-                        default:
-                            continue;   //do nothing      
-                    }
+
+                        games.Add(new()
+                        {
+                            TitleID = titleId,
+                            TitleName = titleName,
+                            ModDataLocation = Path.Combine(base.ModDirectoryPath, titleId),
+                            ModDownloadUrls = GetModDownloadUrls(titleName)   // detect urls for each game and populate the downloads 
+                        });
+                        break;
+                    default:
+                        continue;   //do nothing      
                 }
             }
+            
             base.RaiseUpdateProgress(100, "Scanning Games Library ...");
             return games;
         }
@@ -102,11 +96,11 @@ namespace YuzuModDownloader.Classes.Downloaders
             // fetch all download links for current game
 
             // read switch-mods downloaded webpage and get download links for current game
-            var nodes = _htmlDoc.DocumentNode.SelectNodes($@"//h3[contains(., {Quote}{titleName}{Quote})]/following::table[1]//td//a");
+            var nodes = _htmlDoc.DocumentNode.SelectNodes($"//h3[contains(., {Quote}{titleName}{Quote})]/following::table[1]//td//a");
 
             // if no links found, return empty list 
             if (nodes is null)
-                return new List<Uri>();
+                return [];
 
             // otherwise process links and add them into downloadUrls list 
             var downloadUrls = new List<Uri>();
@@ -115,7 +109,7 @@ namespace YuzuModDownloader.Classes.Downloaders
                 string url = node.Attributes["href"].Value.Trim();
                 if (url.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) || url.EndsWith(".rar", StringComparison.OrdinalIgnoreCase) || url.EndsWith(".7z", StringComparison.OrdinalIgnoreCase))
                 {
-                    downloadUrls.Add(new Uri(url));
+                    downloadUrls.Add(new(url));
                 }
             }
             return downloadUrls;

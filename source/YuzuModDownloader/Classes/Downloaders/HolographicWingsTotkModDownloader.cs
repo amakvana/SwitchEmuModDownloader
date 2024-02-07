@@ -1,22 +1,14 @@
-﻿using System.Diagnostics;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Xml;
 using YuzuModDownloader.Classes.Entities;
 using YuzuModDownloader.Classes.Utilities;
 
 namespace YuzuModDownloader.Classes.Downloaders
 {
-    public class HolographicWingsTotkModDownloader : ModDownloader
+    public class HolographicWingsTotkModDownloader(IHttpClientFactory clientFactory, bool isModDataLocationToBeDeleted, bool isDownloadedModArchivesToBeDeleted) : ModDownloader(clientFactory, isModDataLocationToBeDeleted, isDownloadedModArchivesToBeDeleted)
     {
         private const string HolographicWingsTotkXml = "holographicwings.xml";
-
-        private readonly IHttpClientFactory _clientFactory;
-
-        public HolographicWingsTotkModDownloader(IHttpClientFactory clientFactory, bool isModDataLocationToBeDeleted, bool isDownloadedModArchivesToBeDeleted)
-            : base(clientFactory, isModDataLocationToBeDeleted, isDownloadedModArchivesToBeDeleted)
-        {
-            _clientFactory = clientFactory;
-        }
+        private readonly IHttpClientFactory _clientFactory = clientFactory;
 
         public new async Task DownloadPrerequisitesAsync()
         {
@@ -30,40 +22,42 @@ namespace YuzuModDownloader.Classes.Downloaders
             // loop through {ModDirPath} folder & get title names from title Id's
             var games = new List<Game>();
             base.RaiseUpdateProgress(0, "Scanning Games Library ...");
-            using (var reader = XmlReader.Create(HolographicWingsTotkXml, new XmlReaderSettings
+            using var reader = XmlReader.Create(HolographicWingsTotkXml, new()
             {
                 Async = true,
                 IgnoreComments = true
-            }))
+            });
+
+            while (await reader.ReadAsync())
             {
-                while (await reader.ReadAsync())
+                if (!reader.IsStartElement())
+                    continue;
+
+                switch (reader.Name)
                 {
-                    if (!reader.IsStartElement())
-                        continue;
+                    case "title_id":
+                        string titleId = await reader.ReadElementContentAsStringAsync();
 
-                    switch (reader.Name)
-                    {
-                        case "title_id":
-                            string titleId = await reader.ReadElementContentAsStringAsync();
-                            await reader.ReadAsync();
-
-                            if (string.IsNullOrWhiteSpace(titleId) || !Directory.Exists(Path.Combine(base.ModDirectoryPath, titleId)))
-                                break;
-
-                            string titleVersion = await GetTitleVersion(titleId);
-                            games.Add(new Game
-                            {
-                                TitleID = titleId,
-                                ModDataLocation = Path.Combine(base.ModDirectoryPath, titleId),
-                                TitleVersion = titleVersion,
-                                ModDownloadUrls = await GetModDownloadUrls(titleVersion)   // detect urls for each game and populate the downloads 
-                            });
+                        // if current scanned ID isn't on the machine, go to next ID
+                        if (string.IsNullOrWhiteSpace(titleId) || !Directory.Exists(Path.Combine(base.ModDirectoryPath, titleId)))
                             break;
 
-                        default: break;     // do nothing 
-                    }
+                        // current ID matches a users game, process 
+                        string titleVersion = await GetTitleVersion(titleId);
+                        games.Add(new()
+                        {
+                            TitleName = "The Legend of Zelda: Tears of the Kingdom",
+                            TitleID = titleId,
+                            ModDataLocation = Path.Combine(base.ModDirectoryPath, titleId),
+                            TitleVersion = titleVersion,
+                            ModDownloadUrls = await GetModDownloadUrls(titleVersion)   // detect urls for each game and populate the downloads 
+                        });
+                        break;
+
+                    default: break;     // do nothing 
                 }
             }
+            
             base.RaiseUpdateProgress(100, "Scanning Games Library ...");
             return games;
         }
@@ -171,7 +165,7 @@ namespace YuzuModDownloader.Classes.Downloaders
         private async Task<string> GetTitleVersion(string titleId)
         {
             string pv = Path.Combine(base.UserDirPath, "cache", "game_list", $"{titleId}.pv.txt");
-            string defaultVersion = "1.0.0";
+            const string defaultVersion = "1.0.0";
 
             // if <title_id>.pv.txt doesn't exist, return default version 
             if (!File.Exists(pv))
@@ -179,19 +173,17 @@ namespace YuzuModDownloader.Classes.Downloaders
 
             // otherwise read in the <title_id>.pv.txt
             // scan for "Update (X.X.X)" line, parse and return X.X.X
-            using (var reader = new StreamReader(pv))
+            using var reader = new StreamReader(pv);
+            string? line;
+            while ((line = await reader.ReadLineAsync()) is not null)
             {
-                string? line;
-                while ((line = await reader.ReadLineAsync()) is not null)
-                {
-                    if (!line.StartsWith("Update (", StringComparison.OrdinalIgnoreCase))
-                        continue;
+                if (!line.StartsWith("Update (", StringComparison.OrdinalIgnoreCase))
+                    continue;
 
-                    // extract version from line containing Update (X.X.X)
-                    int from = line.IndexOf("(") + 1;
-                    int to = line.LastIndexOf(")");
-                    return line[from..to];     // extract and return X.X.X 
-                }
+                // extract version from line containing Update (X.X.X)
+                int from = line.IndexOf("(") + 1;
+                int to = line.LastIndexOf(")");
+                return line[from..to];     // extract and return X.X.X 
             }
 
             return defaultVersion;     // fallback
@@ -205,12 +197,12 @@ namespace YuzuModDownloader.Classes.Downloaders
         {
             // pull releases from github json 
             using var client = _clientFactory.CreateClient("GitHub-Api");
-            using var json = await client.GetStreamAsync("repos/HolographicWings/TOTK-Mods-collection/releases/latest");
+            await using var json = await client.GetStreamAsync("repos/HolographicWings/TOTK-Mods-collection/releases/latest");
             var repoData = await JsonSerializer.DeserializeAsync<Repo>(json)!;
 
             // if no data is fetched, return empty list 
             if (repoData is null)
-                return new List<Uri>();
+                return [];
 
             // for each asset, grab the download url and return it 
             var downloadUrls = new List<Uri>();
@@ -220,7 +212,7 @@ namespace YuzuModDownloader.Classes.Downloaders
                 if (!asset.BrowserDownloadUrl!.Contains(titleVersion) || !asset.BrowserDownloadUrl!.EndsWith(".7z", StringComparison.OrdinalIgnoreCase))
                     continue;
 
-                downloadUrls.Add(new Uri(asset.BrowserDownloadUrl));
+                downloadUrls.Add(new(asset.BrowserDownloadUrl));
             }
             return downloadUrls;
         }

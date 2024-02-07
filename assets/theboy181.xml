@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <games>
 <game>
 <title_id>01009B500007C000</title_id>
@@ -208,4 +208,21 @@
 <title_id>010015100B514000</title_id>
 <mod_url_path>Super Mario Bros. Wonder/[010015100B514000]</mod_url_path>
 </game>  
+
+
+<game>
+<title_id>0100A8E016236000</title_id>
+<mod_url_path>Kirby's Dream Buffet/[0100A8E016236000]</mod_url_path>
+</game>  
+
+<game>
+<title_id>01007820196A6000</title_id>
+<mod_url_path>Red Dead Redemption/[01007820196A6000]</mod_url_path>
+</game>  
+
+<game>
+<title_id>0100E95004038000</title_id>
+<mod_url_path>Xenoblade Chronicles 2/[0100E95004038000]</mod_url_path>
+</game>  
+
 </games>

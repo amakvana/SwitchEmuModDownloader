@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.4.1.0] - 2024-02-07
+
+### Added
+
+- Show Game Titles in Download Confirmation Dialog - thanks [@kathyrollo](https://github.com/amakvana/YuzuModDownloader/issues/36)
+  - If Games have been detected, the `Show Details` button will be enabled and games which mods have been downloaded for will appear in here.
+- Detection for Flatpak installations of Yuzu - thanks [@soufrabi](https://github.com/amakvana/YuzuModDownloader/pull/35), [@rotanigroc](https://github.com/amakvana/YuzuModDownloader/issues/29)
+
+### Changed
+
+- Upgraded YuzuModDownloader from .NET 7 to .NET 8 - LTS and much better performance
+- Upgraded 7z.zip from 22.01 to 23.01 - better performance
+- Upgraded all project packages to their latest versions for better performance and to fix some underlying framework bugs
+- Rewrote `GetUserDirectoryPath()` and `GetModPath()` within `ModDownloader.cs` to better handle paths for Linux and Windows - thanks [@soufrabi](https://github.com/amakvana/YuzuModDownloader/pull/35)
+- GUI tweaks to improve UX
+- Removed redundant code from codebase
+- Optimised several methods further to utilise await/async and increase performance.
+- Latest [Microsoft Edge Chromium](https://www.microsoft.com/en-us/edge/download) or [Google Chrome](https://www.google.com/chrome/) is recommended to be installed (Linux - deb only) for increased `PuppeteerSharp` performance
+
+### Fixed
+
+- Error in parsing `load_directory` within `qt-config.ini` - thanks [@anzix, @garbear](https://github.com/amakvana/YuzuModDownloader/issues/34)
+- `theboy181` download server is working again, now uses `PuppeteerSharp` to scrape repo as GitHub now uses `React.JS` - thanks [@Pacomss, @SebinaLukawa97, @spyro2000, @W13N3N](https://github.com/amakvana/YuzuModDownloader/issues/33)
+
+<br>
+
 ## [1.4.0.0] - 2023-06-04
 
 ### Added
@@ -22,7 +48,6 @@ All notable changes to this project will be documented in this file.
 - Further GUI tweaks to improve UX
   - ProgressText now streamlined inside ProgressBar
 - Removed redundant code from codebase
-- Optimised several methods to utilise await/async.
 
 ### Fixed
 

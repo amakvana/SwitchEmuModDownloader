@@ -23,16 +23,13 @@ namespace YuzuModDownloader.Classes.Downloaders
             _isDownloadedModArchivesToBeDeleted = isDownloadedModArchivesToBeDeleted;
         }
 
-        protected string UserDirPath { get; private set; } = "";
+        protected string UserDirPath { get; } = "";
 
-        protected string ModDirectoryPath { get; private set; } = "";
+        protected string ModDirectoryPath { get; } = "";
 
         protected internal Action<int, string>? UpdateProgress;
 
-        protected void RaiseUpdateProgress(int progressPercentage, string progressText)
-        {
-            UpdateProgress?.Invoke(progressPercentage, progressText);
-        }
+        protected void RaiseUpdateProgress(int progressPercentage, string progressText) => UpdateProgress?.Invoke(progressPercentage, progressText);
 
         /// <summary>
         /// Downloads all prequisites for YuzuModDownloader to function.
@@ -53,8 +50,8 @@ namespace YuzuModDownloader.Classes.Downloaders
         protected async Task DownloadGameDatabaseAsync(string url)
         {
             // download game database & place in same directory as executable
-            string fileName = url[(url.LastIndexOf('/') + 1)..].ToString();
-            var fileOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
+            string fileName = url[(url.LastIndexOf('/') + 1)..];
+            const FileOptions fileOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
             await using var file = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 8192, fileOptions);
             var progressReporter = new Progress<float>(progress =>
             {
@@ -74,7 +71,7 @@ namespace YuzuModDownloader.Classes.Downloaders
         protected async Task DownloadModsAsync(List<Game> games)
         {
             var client = _clientFactory.CreateClient();
-            var fileOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
+            const FileOptions fileOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
             foreach (var game in games)
             {
                 // clear mod data location if user has checked the option 
@@ -169,17 +166,17 @@ namespace YuzuModDownloader.Classes.Downloaders
 
             // otherwise, download 7zip
             Directory.CreateDirectory(prerequisitesLocation);
-            string downloadUrl = OperatingSystem.IsLinux() 
-                ? "assets/7z/22.01/7z-linux.zip" 
-                : "assets/7z/22.01/7z.zip";
+            string downloadUrl = OperatingSystem.IsLinux()
+                ? "assets/7z/23.01/7z-linux.zip"
+                : "assets/7z/23.01/7z.zip";
             var client = _clientFactory.CreateClient("GitHub-YuzuModDownloader");
-            var fileOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
+            const FileOptions fileOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
             await using (var file = new FileStream(sevenZLocation, FileMode.Create, FileAccess.Write, FileShare.None, 8192, fileOptions))
             {
                 var progressReporter = new Progress<float>(progress =>
                 {
                     var progressPercentage = (int)(progress * 100);
-                    RaiseUpdateProgress(progressPercentage, $"Downloading 7-Zip ...");
+                    RaiseUpdateProgress(progressPercentage, "Downloading 7-Zip ...");
                 });
                 await client.DownloadAsync(downloadUrl, file, progressReporter);
             }
@@ -199,7 +196,7 @@ namespace YuzuModDownloader.Classes.Downloaders
                 }
             }
 
-            // set 7zz permissions to 755 if on linux 
+            // add execute permissions on 7zz, if on linux 
             if (OperatingSystem.IsLinux())
             {
                 var psi = new ProcessStartInfo
@@ -260,11 +257,19 @@ namespace YuzuModDownloader.Classes.Downloaders
 
         private static string GetUserDirectoryPath()
         {
-            // if path is Linux, get path and return it 
+            // if linux 
             if (OperatingSystem.IsLinux())
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "yuzu");
+            {
+                // Flatpak version of Yuzu : Path to $HOME/.var/app/org.yuzu_emu.yuzu/config/yuzu
+                string flatpakConfigDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".var", "app", "org.yuzu_emu.yuzu", "config", "yuzu");
+                if (Directory.Exists(flatpakConfigDirectoryPath))
+                    return flatpakConfigDirectoryPath;
 
-            // otherwise, assume Windows 
+                // Standard Yuzu Installation : Path to $XDG_CONFIG_HOME/yuzu
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "yuzu");
+            }
+
+            // otherwise, assume windows 
             return Directory.Exists("user") ?
                 Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)!, "user") :
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "yuzu");
@@ -286,29 +291,30 @@ namespace YuzuModDownloader.Classes.Downloaders
             if (OperatingSystem.IsLinux())
                 configPath = Path.Combine(baseDirPath, "qt-config.ini");
 
-            using (var reader = new StreamReader(configPath))
+            using var reader = new StreamReader(configPath);
+            string? line;
+            while ((line = reader.ReadLine()) is not null)
             {
-                string? line;
-                while ((line = reader.ReadLine()) is not null)
-                {
-                    if (!line.StartsWith("load_directory=", StringComparison.OrdinalIgnoreCase))
-                        continue;
+                if (!line.StartsWith("load_directory=", StringComparison.OrdinalIgnoreCase))
+                    continue;
 
-                    // current line starts with "load_directory=", remove the key out of string 
-                    // this way handles any "=" inside folder names
-                    string parsedLine = line.Replace("load_directory=", "");
+                // current line starts with "load_directory=", remove the key out of string 
+                // this way handles any "=" inside folder names
+                string loadDirectoryPath = line.Replace("load_directory=", "");
 
-                    // if linux, don't replace any separators, just return  
-                    if (OperatingSystem.IsLinux())
-                    {
-                        return parsedLine;
-                        //return line.Split('=').Last();
-                    }
+                // cleanup dirty characters and use "/" as the base separator 
+                loadDirectoryPath = loadDirectoryPath.Replace($"{Quote}", "");
+                loadDirectoryPath = loadDirectoryPath.Replace(@"\\", "/");
+                loadDirectoryPath = loadDirectoryPath.Replace(@"\", "/");
 
-                    // otherwise assume windows, swap \\ for \
-                    return parsedLine.Replace($@"{Path.DirectorySeparatorChar}{Path.DirectorySeparatorChar}", $"{Path.DirectorySeparatorChar}");
-                    //return line.Split('=').Last().Replace($@"{Path.DirectorySeparatorChar}{Path.DirectorySeparatorChar}", $"{Path.DirectorySeparatorChar}");
-                }
+                // split the path then return path using OS delimiters
+                string formattedLoadDirectoryPath = Path.Combine(loadDirectoryPath.Split("/"));
+
+                // prepend "/" if Linux 
+                if (OperatingSystem.IsLinux())
+                    formattedLoadDirectoryPath = $"/{formattedLoadDirectoryPath}";
+
+                return formattedLoadDirectoryPath;
             }
 
             // fallback to %appdata%\yuzu\load

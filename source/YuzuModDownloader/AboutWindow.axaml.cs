@@ -18,7 +18,7 @@ namespace YuzuModDownloader
             LblCompanyName.Content = AssemblyCompany;
             TxtDescription.Text = string.Format(
                 "Yuzu Mod Downloader{0}" +
-                "A One-Click Yuzu Mod downloader for Switch Game Mods (Unofficial) by amakvana.{0}{0}" +
+                "A Cross-Platform One-Click Yuzu Mod downloader for Switch Game Mods (Unofficial) by amakvana.{0}{0}" +
                 "https://github.com/amakvana/YuzuModDownloader{0}{0}" +
                 "This software is licensed under GNU GPL-3.0.{0}" +
                 "Source code is available in repository above.{0}{0}" +
@@ -27,10 +27,7 @@ namespace YuzuModDownloader
                 , Environment.NewLine);
         }
 
-        public void BtnOK_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        public void BtnOK_Click(object sender, RoutedEventArgs e) => Close();
 
         #region Assembly Attribute Accessors
 
@@ -47,7 +44,7 @@ namespace YuzuModDownloader
                         return titleAttribute.Title;
                     }
                 }
-                return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
+                return Path.GetFileNameWithoutExtension(System.AppContext.BaseDirectory);
             }
         }
 

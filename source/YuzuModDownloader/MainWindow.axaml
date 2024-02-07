@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" Width="400" SizeToContent="Height"
+        mc:Ignorable="d" Width="450" SizeToContent="Height"
         x:Class="YuzuModDownloader.MainWindow"
         Title="Yuzu Mod Downloader"
         CanResize="False"
@@ -37,7 +37,7 @@
       <MenuItem Header="_Help">
         <MenuItem Header="Yuzu Website" Name="YuzuWebsiteToolStripMenuItem" Click="YuzuWebsiteToolStripMenuItem_Click"/>
         <Separator/>
-        <MenuItem Header="About" Name="AboutToolStripMenuItem" Click="AboutToolStripMenuItem_Click"/>
+        <MenuItem Header="About" Name="AboutToolStripMenuItem" Click="AboutToolStripMenuItem_ClickAsync"/>
       </MenuItem>
     </Menu>
     

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -10,38 +10,35 @@
     <GeneratedAssemblyInfoFile>AssemblyInfo.cs</GeneratedAssemblyInfoFile>
     <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
+    <PublishTrimmed>true</PublishTrimmed>
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(RuntimeIdentifier)' == 'linux-x64'">
     <OutputType>Exe</OutputType>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove=".gitignore" />
   </ItemGroup>
-
   <ItemGroup>
     <TrimmerRootDescriptor Include="Roots.xml" />
   </ItemGroup>
-
   <ItemGroup>
     <AvaloniaResource Include="Assets/**" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="Assets\icon.ico" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.0-preview8" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.0.0-preview8" />
+    <PackageReference Include="Avalonia" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.7" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview8" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-preview8" />
-    <PackageReference Include="Avalonia.Themes.Simple" Version="11.0.0-preview8" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
-    <PackageReference Include="MessageBox.Avalonia" Version="2.3.1-prev7.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0-preview.4.23259.5" />
-    <PackageReference Include="System.Text.Json" Version="8.0.0-preview.4.23259.5" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Themes.Simple" Version="11.0.7" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.58" />
+    <PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1" />
+    <PackageReference Include="PuppeteerSharp" Version="14.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.1" />
   </ItemGroup>
 </Project>

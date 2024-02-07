@@ -1,8 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.DTO;
 using Microsoft.Extensions.DependencyInjection;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using System.Diagnostics;
 using YuzuModDownloader.Classes.Downloaders;
 using YuzuModDownloader.Classes.Entities;
@@ -22,10 +22,7 @@ namespace YuzuModDownloader
             ToggleUiControls(false);
         }
 
-        public MainWindow(IServiceProvider serviceProvider) : this()
-        {
-            _clientFactory = serviceProvider.GetService<IHttpClientFactory>();
-        }
+        public MainWindow(IServiceProvider serviceProvider) : this() => _clientFactory = serviceProvider.GetService<IHttpClientFactory>();
 
         public async void Window_LoadedAsync(object sender, RoutedEventArgs e)
         {
@@ -41,7 +38,6 @@ namespace YuzuModDownloader
             // disable form controls
             ToggleUiControls(false);
 
-            int totalGames = 0;
             var games = new List<Game>();
             switch (CboModRepos.SelectedIndex)
             {
@@ -75,47 +71,32 @@ namespace YuzuModDownloader
 
             // tell user mods have been downloaded 
             PbarProgress.ProgressTextFormat = "Done!";
-            totalGames = (games.Count > 0) ? games.Where(g => g.ModDownloadUrls.Count > 0).Count() : 0;
-            await MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
-            {
-                ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.Ok,
-                ContentTitle = this.Title,
-                ContentMessage = $"Done! Mods downloaded for {totalGames} games.{Environment.NewLine}{Environment.NewLine}" +
-                                    $"To toggle specific game mods On/Off:{Environment.NewLine}" +
-                                    $"Run yuzu > Right-Click on a game > Properties > Add-Ons",
-                Icon = MessageBox.Avalonia.Enums.Icon.Success,
-                WindowIcon = this.Icon,
-                WindowStartupLocation= WindowStartupLocation.CenterOwner
-            }).ShowDialog(this);
+            var confirmationWindow = new DownloadConfirmationWindow(games);
+            await confirmationWindow.ShowDialog(this);
 
             // reset ui
             ToggleUiControls(true);
         }
 
-        public void ExitToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Environment.Exit(0);
-        }
+        public void ExitToolStripMenuItem_Click(object sender, RoutedEventArgs e) => Environment.Exit(0);
 
         public void YuzuWebsiteToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://yuzu-emu.org/")
-            {
-                UseShellExecute = true,
-                Verb = "Open"
-            })?.Dispose();
+            LaunchUrl("https://yuzu-emu.org/");
         }
 
-        public void AboutToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        public async void AboutToolStripMenuItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             var aboutWindow = new AboutWindow();
-            aboutWindow.ShowDialog(this);
+            await aboutWindow.ShowDialog(this);
         }
 
         private void ModDownloader_UpdateProgress(int progressPercentage, string progressText)
         {
             PbarProgress.Value = progressPercentage;
             PbarProgress.ProgressTextFormat = $"{progressText} ({progressPercentage}%)";
+            PbarProgress.InvalidateVisual();
+            PbarProgress.UpdateLayout();
         }
 
         private void ToggleUiControls(bool value)
@@ -129,58 +110,43 @@ namespace YuzuModDownloader
         private async Task CheckAppVersionAsync()
         {
             var updater = new AppUpdater(_clientFactory!);
-
             var currentAppVersion = await updater.CheckVersionAsync();
             switch (currentAppVersion)
             {
                 case AppUpdater.CurrentVersion.UpdateAvailable:
-                    await MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                    {
-                        ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.Ok,
-                        ContentTitle = this.Title,
-                        ContentMessage = $"New version of Yuzu Mod Downloader is available.{Environment.NewLine}{Environment.NewLine}" +
-                                            "Please download the latest version from https://github.com/amakvana/YuzuModDownloader",
-                        Icon = MessageBox.Avalonia.Enums.Icon.Info,
-                        WindowIcon = this.Icon,
-                        WindowStartupLocation = WindowStartupLocation.CenterOwner
-                    }).ShowDialog(this);
-                    Process.Start(new ProcessStartInfo("https://github.com/amakvana/YuzuModDownloader")
-                    {
-                        UseShellExecute = true,
-                        Verb = "Open"
-                    })?.Dispose();
+                    await ShowMessageBox("New version of Yuzu Mod Downloader is available.", MsBox.Avalonia.Enums.Icon.Info);
+                    LaunchUrl("https://github.com/amakvana/YuzuModDownloader");
                     break;
                 case AppUpdater.CurrentVersion.NotSupported:
-                    await MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                    {
-                        ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.Ok,
-                        ContentTitle = this.Title,
-                        ContentMessage = $"This version of Yuzu Mod Downloader is no longer supported.{Environment.NewLine}{Environment.NewLine}" +
-                                            "Please download the latest version from https://github.com/amakvana/YuzuModDownloader",
-                        Icon = MessageBox.Avalonia.Enums.Icon.Error,
-                        WindowIcon = this.Icon,
-                        WindowStartupLocation = WindowStartupLocation.CenterOwner
-                    }).ShowDialog(this);
-                    Process.Start(new ProcessStartInfo("https://github.com/amakvana/YuzuModDownloader")
-                    {
-                        UseShellExecute = true,
-                        Verb = "Open"
-                    });
+                    await ShowMessageBox("This version of Yuzu Mod Downloader is no longer supported.", MsBox.Avalonia.Enums.Icon.Error);
+                    LaunchUrl("https://github.com/amakvana/YuzuModDownloader");
                     Environment.Exit(0);
                     break;
                 case AppUpdater.CurrentVersion.Undetectable:
-                    await MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                    {
-                        ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.Ok,
-                        ContentTitle = this.Title,
-                        ContentMessage = $"Network Connection Error! Please check your internet connection and try again.",
-                        Icon = MessageBox.Avalonia.Enums.Icon.Error,
-                        WindowIcon = this.Icon,
-                        WindowStartupLocation = WindowStartupLocation.CenterOwner
-                    }).ShowDialog(this);
-                    Environment.Exit(0);
+                    await ShowMessageBox("Network Connection Error! Please check your internet connection and try again.", MsBox.Avalonia.Enums.Icon.Error);
+                    Environment.Exit(1);
                     break;
             }
         }
-    }
+
+        private async Task ShowMessageBox(string message, Icon icon) => await MessageBoxManager.GetMessageBoxStandard(new()
+        {
+            ButtonDefinitions = ButtonEnum.Ok,
+            ContentTitle = this.Title,
+            ContentMessage = $"{message}{Environment.NewLine}{Environment.NewLine}" +
+                                 "Please download the latest version from https://github.com/amakvana/YuzuModDownloader",
+            Icon = icon,
+            WindowIcon = this.Icon,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        }).ShowWindowDialogAsync(this);
+
+        private static void LaunchUrl(string url)
+        {
+            Process.Start(new ProcessStartInfo(url)
+            {
+                UseShellExecute = true,
+                Verb = "Open"
+            })?.Dispose();
+        }
+    } 
 }

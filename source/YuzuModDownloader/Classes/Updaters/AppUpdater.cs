@@ -2,17 +2,10 @@
 
 namespace YuzuModDownloader.Classes.Updaters
 {
-    public sealed class AppUpdater
+    public sealed class AppUpdater(IHttpClientFactory clientFactory)
     {
         private const int LatestVersionLineLocation = 1;
-        private readonly IHttpClientFactory _clientFactory;
-        private readonly string _currentAppVersion;
-
-        public AppUpdater(IHttpClientFactory clientFactory)
-        {
-            _clientFactory = clientFactory; 
-            _currentAppVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString().Trim()!;
-        }
+        private readonly string _currentAppVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString().Trim()!;
 
         public enum CurrentVersion
         {
@@ -31,7 +24,7 @@ namespace YuzuModDownloader.Classes.Updaters
 
             try
             {
-                var client = _clientFactory.CreateClient("GitHub-YuzuModDownloader");
+                var client = clientFactory.CreateClient("GitHub-YuzuModDownloader");
                 using var response = await client.GetAsync("version", HttpCompletionOption.ResponseHeadersRead);
 
                 // if response isn't okay, return undetectable

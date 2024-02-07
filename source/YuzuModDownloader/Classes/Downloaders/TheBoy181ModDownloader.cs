@@ -1,23 +1,13 @@
-﻿using HtmlAgilityPack;
+﻿using PuppeteerSharp;
 using System.Xml;
+using YuzuModDownloader.Classes.Managers;
 using YuzuModDownloader.Classes.Entities;
 
 namespace YuzuModDownloader.Classes.Downloaders
 {
-    public sealed class TheBoy181ModDownloader : ModDownloader
+    public sealed class TheBoy181ModDownloader(IHttpClientFactory clientFactory, bool isModDataLocationToBeDeleted, bool isDownloadedModArchivesToBeDeleted) : ModDownloader(clientFactory, isModDataLocationToBeDeleted, isDownloadedModArchivesToBeDeleted)
     {
         private const string TheBoy181Xml = "theboy181.xml";
-        private readonly IHttpClientFactory _clientFactory;
-        private readonly HtmlDocument _htmlDoc = new()
-        {
-            DisableServerSideCode = true
-        };
-
-        public TheBoy181ModDownloader(IHttpClientFactory clientFactory, bool isModDataLocationToBeDeleted, bool isDownloadedModArchivesToBeDeleted)
-            : base(clientFactory, isModDataLocationToBeDeleted, isDownloadedModArchivesToBeDeleted)
-        {
-            _clientFactory = clientFactory;
-        }
 
         public new async Task DownloadPrerequisitesAsync()
         {
@@ -37,45 +27,64 @@ namespace YuzuModDownloader.Classes.Downloaders
             // loop through {ModDirPath} folder & get title names from title Id's
             var games = new List<Game>();
             base.RaiseUpdateProgress(0, "Scanning Games Library ...");
-            using (var reader = XmlReader.Create(TheBoy181Xml, new XmlReaderSettings
+
+            // if no browsers installed, download a copy of chrome
+            (BrowserManager.InstallationState browserInstallationState, string browserInstallationPath) = await BrowserManager.DetectBrowsersAsync();
+            if (browserInstallationState == BrowserManager.InstallationState.NotInstalled)
+            {
+                browserInstallationPath = await BrowserManager.DownloadBrowserAsync();
+            }
+
+            // launch browser in headless mode
+            await using var browser = await Puppeteer.LaunchAsync(new()
+            {
+                Headless = true,
+                ExecutablePath = browserInstallationPath
+            });
+
+            // prepare the xml document 
+            using var reader = XmlReader.Create(TheBoy181Xml, new()
             {
                 Async = true,
                 IgnoreComments = true
-            }))
+            });
+
+            while (await reader.ReadAsync())
             {
-                while (await reader.ReadAsync())
+                if (!reader.IsStartElement())
+                    continue;
+
+                switch (reader.Name)
                 {
-                    if (!reader.IsStartElement())
-                        continue;
+                    case "title_id":
+                        string titleId = await reader.ReadElementContentAsStringAsync();
+                        await reader.ReadAsync();
+                        string modUrlPath = await reader.ReadElementContentAsStringAsync();
 
-                    switch (reader.Name)
-                    {
-                        case "title_id":
-                            string titleId = await reader.ReadElementContentAsStringAsync();
-                            await reader.ReadAsync();
-                            string modUrlPath = await reader.ReadElementContentAsStringAsync();
-
-                            if (string.IsNullOrWhiteSpace(titleId) || !Directory.Exists(Path.Combine(base.ModDirectoryPath, titleId)))
-                                break;
-
-                            string titleVersion = await GetTitleVersion(titleId);
-                     
-                            games.Add(new Game
-                            {
-                                TitleID = titleId,
-                                ModDataLocation = Path.Combine(base.ModDirectoryPath, titleId),
-                                TitleVersion = titleVersion,
-                                ModDownloadUrls = await GetModDownloadUrls(modUrlPath, titleVersion)   // detect urls for each game and populate the downloads 
-                            });
+                        if (string.IsNullOrWhiteSpace(titleId) || !Directory.Exists(Path.Combine(base.ModDirectoryPath, titleId)))
                             break;
 
-                        default: break;     // do nothing 
-                    }
+                        // game found 
+                        string titleVersion = await GetTitleVersion(titleId);
+                        games.Add(new()
+                        {
+                            TitleID = titleId,
+                            TitleName = GetTitleFromModUrlPath(modUrlPath),
+                            ModDataLocation = Path.Combine(base.ModDirectoryPath, titleId),
+                            TitleVersion = titleVersion,
+                            ModDownloadUrls = await GetModDownloadUrls(browser, modUrlPath, titleVersion)   // detect urls for each game and populate the downloads 
+                        });
+                        break;
+
+                    default: break;     // do nothing 
                 }
             }
+            
             base.RaiseUpdateProgress(100, "Scanning Games Library ...");
             return games;
         }
+
+        private static string GetTitleFromModUrlPath(string modUrlPath) => modUrlPath.Split(@"/")[0];
 
         /// <summary>
         /// Gets the Title Version information from /cache/game_list/
@@ -87,24 +96,24 @@ namespace YuzuModDownloader.Classes.Downloaders
             string pv = Path.Combine(base.UserDirPath, "cache", "game_list", $"{titleId}.pv.txt");
             string defaultVersion = "1.0.0";
 
-            if (!File.Exists(pv)) 
+            // if no pv file, return 1.0.0
+            if (!File.Exists(pv))
                 return defaultVersion;
 
-            using (var reader = new StreamReader(pv))
+            // otherwise, read in pv.txt
+            using var reader = new StreamReader(pv);
+            string? line;
+            while ((line = await reader.ReadLineAsync()) is not null)
             {
-                string? line;
-                while ((line = await reader.ReadLineAsync()) is not null)
-                {
-                    if (!line.StartsWith("Update (", StringComparison.OrdinalIgnoreCase))
-                        continue;
+                if (!line.StartsWith("Update (", StringComparison.OrdinalIgnoreCase))
+                    continue;
 
-                    // extract version from line containing Update (X.X.X)
-                    int from = line.IndexOf("(") + 1;
-                    int to = line.LastIndexOf(")");
-                    return line[from..to];     // extract and return X.X.X 
-                }                
+                // extract version from line containing Update (X.X.X)
+                int from = line.IndexOf("(") + 1;
+                int to = line.LastIndexOf(")");
+                return line[from..to];     // extract and return X.X.X 
             }
-
+            
             return defaultVersion;     // fallback
         }
 
@@ -113,45 +122,54 @@ namespace YuzuModDownloader.Classes.Downloaders
         /// </summary>
         /// <param name="titleName">Title of the game.</param>
         /// <returns>List of Uri's containing the Urls to Mods.</returns>
-        private async Task<List<Uri>> GetModDownloadUrls(string modUrlPath, string titleVersion)
+        private static async Task<List<Uri>> GetModDownloadUrls(IBrowser browser, string modUrlPath, string titleVersion)
         {
             // fetch all download links for current game
 
-            // download the basemodsrepo document once 
-            using var client = _clientFactory.CreateClient("GitHub-TheBoy181");
-            var response = await client.GetAsync($@"{modUrlPath}/{titleVersion}", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-            
-            // if response is 404, return empty list 
-            if (!response.IsSuccessStatusCode)
-                return new List<Uri>();
-            
-            // response is valid, read it and get download links for current game
-            var html = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            _htmlDoc.LoadHtml(html);
-            var nodes = _htmlDoc.DocumentNode.SelectNodes($@"//h2[@id='files']/following::a[1]/following::div[2]//div[@role='rowheader']//a");
+            // create new webpage in headless browser
+            await using var page = await browser.NewPageAsync().ConfigureAwait(false);
 
-            // if no links found, return empty list 
-            if (nodes is null) 
-                return new List<Uri>();
-
-            //otherwise process links and add them into downloadUrls list
-            var downloadUrls = new List<Uri>();
-            foreach (var node in nodes)
+            // Disable large rendering media from being loaded into the browser
+            await page.SetUserAgentAsync(@"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0").ConfigureAwait(false);
+            await page.SetRequestInterceptionAsync(true).ConfigureAwait(false);
+            page.Request += async (s, e) =>
             {
-                string url = node.Attributes["href"].Value.Trim();
+                switch (e.Request.ResourceType)
+                {
+                    case ResourceType.Image or
+                    ResourceType.ImageSet or
+                    ResourceType.Img or
+                    ResourceType.StyleSheet or
+                    ResourceType.Media or
+                    ResourceType.Font:
+                        await e.Request.AbortAsync().ConfigureAwait(false);
+                        break;
+                    default:
+                        await e.Request.ContinueAsync().ConfigureAwait(false);
+                        break;
+                }
+            };
+
+            // go to the mods webpage for the current game 
+            // scrape all a.Link--primary tags and remove duplicates
+            await page.GoToAsync($@"https://github.com/theboy181/switch-ptchtxt-mods/tree/main/{modUrlPath}/{titleVersion}").ConfigureAwait(false);
+            var hrefValues = await page.EvaluateExpressionAsync<string[]>(@"[...new Set([...document.querySelectorAll('a.Link--primary')].map(a => a.href).filter(Boolean))]").ConfigureAwait(false);
+
+            // grab urls 
+            var downloadUrls = new List<Uri>();
+            foreach (var href in hrefValues)
+            {
+                string url = href.ToString();
                 if (url.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) || url.EndsWith(".rar", StringComparison.OrdinalIgnoreCase) || url.EndsWith(".7z", StringComparison.OrdinalIgnoreCase))
                 {
-                    // prepend github.com to url 
-                    if (!url.StartsWith("https://github.com", StringComparison.Ordinal))
-                        url = $@"https://github.com{url}";
-
                     // swap /blob/ for /raw/ to access direct download path 
                     url = url.Replace("/blob/", "/raw/");
                     url = url.Replace("&#39;", "'");        // fix those pesky apostrophes 
 
-                    downloadUrls.Add(new Uri(url));
+                    downloadUrls.Add(new(url));   
                 }
             }
+
             return downloadUrls;
         }
 
