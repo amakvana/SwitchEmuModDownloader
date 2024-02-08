@@ -24,6 +24,7 @@ Compatible with both the standalone and installed versions of Yuzu.
 - [Installation - Linux Tutorial](#linux)
 - [Installation - YouTube Tutorial](#installation---youtube-guide)
 - [User Guide](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md)
+- [Donations](#donations)
 - [Acknowledgements](#acknowledgements)
 
 ## Overview
@@ -84,6 +85,12 @@ You can double click on YuzuModDownloader to execute it, once the first two comm
 ## Installation - YouTube Guide
 
 [![Watch the video](images/ymd-youtube.jpg)](https://youtu.be/q_2ivWN07Kw)
+
+## Donations
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/amakvana)
+[![liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/amakvana/donate)
+
+If this project helped you, feel free to buy me a coffee :)
 
 ## Acknowledgements
 
