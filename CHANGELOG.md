@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.4.2.0] - 2024-02-18
+
+### Added
+
+- YuzuModDownloader now skips downloading a particular mod if it cannot connect to the remote server
+
+### Changed
+
+- Improved `theboy181` download server choice performance
+- Upgraded all project packages to their latest versions for even better performance
+- Rewrote several classes & methods for improved performance
+- Removed redundant code & shrunk overall codebase
+- Small rewrite of `AppUpdater.cs` to improve startup performance
+- Optimised several methods further to utilise await/async and increase performance
+
+### Fixed
+
+- Crashing when download URL host times out - thanks [@brolio](https://github.com/amakvana/YuzuModDownloader/issues/37)
+
+<br>
+
 ## [1.4.1.0] - 2024-02-07
 
 ### Added
