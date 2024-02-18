@@ -2,7 +2,7 @@
 ![GitHub Release](https://img.shields.io/github/v/release/amakvana/YuzuModDownloader?style=for-the-badge)
 ![GitHub all releases](https://img.shields.io/github/downloads/amakvana/YuzuModDownloader/total?style=for-the-badge)
 ![GitHub license](https://img.shields.io/github/license/amakvana/YuzuModDownloader?style=for-the-badge)
-![GitHub repo size](https://img.shields.io/github/repo-size/amakvana/YuzuModDownloader?style=for-the-badge)
+<!-- ![GitHub repo size](https://img.shields.io/github/repo-size/amakvana/YuzuModDownloader?style=for-the-badge) -->
 
 # Yuzu Mod Downloader
 
