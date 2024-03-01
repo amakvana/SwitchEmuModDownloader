@@ -29,6 +29,8 @@ If applicable, add screenshots to help explain your problem.
  - Yuzu Standalone or Installed?
  - Game Title [e.g. Super Smash Bros. Ultimate]
  - Game Title ID [0xXXXXXXXXXXXXXXXX - found underneath the title in games list within Yuzu]
+ - Path to `Mod Load Root` folder:
+ - Upload a copy of your `qt-config.ini`
 
 **Additional context**
 Add any other context about the problem here.
