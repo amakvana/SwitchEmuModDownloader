@@ -1,5 +1,5 @@
 # TODO
 
 - [ ] rebrand
-- [ ] fix repos
+- [ ] fix non-working repos
 - [ ] add ryujinx support 
