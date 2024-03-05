@@ -4,15 +4,15 @@
 ![GitHub license](https://img.shields.io/github/license/amakvana/YuzuModDownloader?style=for-the-badge)
 <!-- ![GitHub repo size](https://img.shields.io/github/repo-size/amakvana/YuzuModDownloader?style=for-the-badge) -->
 
-# Yuzu Mod Downloader
+# Switch Emu Mod Downloader
 
-A Cross-Platform One-Click Yuzu Game Mod downloader for Switch games.
+A Cross-Platform One-Click Games Mod Downloader for Switch emulators.
 
-Perfect for those who need to download Switch enhancement/workaround mods from the [Yuzu Switch-Mods Wiki](https://github.com/yuzu-emu/yuzu/wiki/Switch-Mods) and Alternative Mirrors for their games.
+Perfect for those who need to download Switch emulation enhancement/workaround mods for their dumped games.
 
-Compatible with both the standalone and installed versions of Yuzu.
+Compatible with both the standalone and installed versions of any Switch emulator.
 
-![YuzuModDownloaderAnimated](images/ymd-1400.gif)
+![SwitchEmuModDownloaderAnimated](images/ymd-1400.gif)
 
 #### Did this program help you? Please consider buying me a cup of coffee to support my work 
 
@@ -29,28 +29,28 @@ Compatible with both the standalone and installed versions of Yuzu.
   - [Windows](#windows)
   - [Linux](#linux)
   - [YouTube Tutorial](#installation---youtube-guide)
-- [User Guide](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md)
+- [User Guide](https://github.com/amakvana/SwitchEmuModDownloader/blob/main/GUIDE.md)
 - [Acknowledgements](#acknowledgements)
 
 ## Overview
 
 ### Methodology
 
-1. Reads current games imported into Yuzu.
+1. Reads current games imported into your Switch emulator.
 2. Reads selected `Download Server`
 3. Scans game library to see available mods.
 4. Fetches the mod URL's for current games.
-5. Downloads & extracts it into the defined Yuzu Mod folder.
+5. Downloads & extracts it into the emulators' Mod folder.
 
 ### Usage
 
-See [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md)
+See [GUIDE](https://github.com/amakvana/SwitchEmuModDownloader/blob/main/GUIDE.md)
 
-https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md
+https://github.com/amakvana/SwitchEmuModDownloader/blob/main/GUIDE.md
 
 ## Downloads
 
-https://github.com/amakvana/YuzuModDownloader/releases/latest
+https://github.com/amakvana/SwitchEmuModDownloader/releases/latest
 
 Requires:
 
@@ -62,16 +62,16 @@ Requires:
 
 ## Installation
 
-YuzuModDownloader does not require Administrator privileges to run.
+SwitchEmuModDownloader does not require Administrator privileges to run.
 
-Refer to the [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md) for usage instructions.
+Refer to the [GUIDE](https://github.com/amakvana/SwitchEmuModDownloader/blob/main/GUIDE.md) for usage instructions.
 
 ### Windows
 
-Extract the entire contents of the `YuzuModDownloader-X.X.X.X-Windows-x64.zip` file and place it into your `Yuzu Root Folder` (this is the folder `yuzu.exe` resides).
+Extract the entire contents of the `YuzuModDownloader-X.X.X.X-Windows-x64.zip` file and place it into the same folder your emulator's executable resides.
 
-![YuzuModDownloaderSetupWindowsAnimated](images/ymd-setup-windows.gif)
-![YuzuModDownloaderSetupWindows](images/ymd-setup-windows-2.png)
+![SwitchEmuModDownloaderSetupWindowsAnimated](images/ymd-setup-windows.gif)
+![SwitchEmuModDownloaderSetupWindows](images/ymd-setup-windows-2.png)
 
 ### Linux
 
@@ -85,7 +85,7 @@ chmod +x YuzuModDownloader
 
 You can double click on YuzuModDownloader to execute it, once the first two commands above have been ran (3rd is to run it from Terminal).
 
-![YuzuModDownloaderSetupLinuxAnimated](images/ymd-setup-linux.gif)
+![SwitchEmuModDownloaderSetupLinuxAnimated](images/ymd-setup-linux.gif)
 
 ## Installation - YouTube Guide
 
@@ -95,7 +95,7 @@ You can double click on YuzuModDownloader to execute it, once the first two comm
 
 Special thanks to the following:
 
-- [Yuzu Team](https://yuzu-emu.org/) - Nintendo Switch Emulator Developers
+- [Former Citrus Fruit-Named Emulator Team](https://web.archive.org/web/20230303133913/https://yuzu-emu.org/) - Former Nintendo Switch Emulator Developers
 - [TheBoy181](https://github.com/theboy181/) - [Alternative Mods Download Mirror](https://github.com/theboy181/switch-ptchtxt-mods)
 - [HolographicWings](https://github.com/HolographicWings) - [Alternative Mods Download Mirror](https://github.com/HolographicWings/TOTK-Mods-collection)
 - [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons
