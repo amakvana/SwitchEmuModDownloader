@@ -1,4 +1,4 @@
-# Yuzu Mod Downloader Guide
+# Switch Emu Mod Downloader Guide
 
 ## Requirements
 
@@ -10,22 +10,22 @@
 
 ## Methodology
 
-- Reads current games imported into Yuzu
+- Reads current games imported into your Switch emulator.
 - Reads selected `Download Server`
 - Scans game library to see available mods
 - Fetches the mod URL's for current games
-- Downloads & extracts it into the Yuzu Mod folder
+- Downloads & extracts it into the emulators' Mod folder
 
 ## Initial Setup
 
-Ensure Yuzu is up-to-date and [fully configured](https://www.youtube.com/watch?v=93xsKERji60) (gamepaths set)
+Ensure your emulator is up-to-date and [fully configured](https://www.youtube.com/watch?v=93xsKERji60) (gamepaths set)
 
 ### Windows
 
-Extract the entire contents of the `YuzuModDownloader-X.X.X.X-Windows-x64.zip` file and place it into your `Yuzu Root Folder` then refer to the [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md).
+Extract the entire contents of the `YuzuModDownloader-X.X.X.X-Windows-x64.zip` file and place it into the same folder your emulator's executable resides, then refer to the [USAGE](https://github.com/amakvana/SwitchEmuModDownloader/blob/main/GUIDE.md#usage).
 
-![YuzuModDownloaderSetupWindowsAnimated](images/ymd-setup-windows.gif)
-![YuzuModDownloaderSetupWindows](images/ymd-setup-windows-2.png)
+![SwitchEmuModDownloaderSetupWindowsAnimated](images/ymd-setup-windows.gif)
+![SwitchEmuModDownloaderSetupWindows](images/ymd-setup-windows-2.png)
 
 ### Linux
 
@@ -38,13 +38,13 @@ chmod +x YuzuModDownloader
 ./YuzuModDownloader
 ```
 
-You can double click on YuzuModDownloader to execute it, once the first two commands above have been ran (3rd is to run it from Terminal) then refer to the [GUIDE](https://github.com/amakvana/YuzuModDownloader/blob/main/GUIDE.md).
+You can double click on YuzuModDownloader to execute it, once the first two commands above have been ran (3rd is to run it from Terminal) then refer to the [GUIDE](https://github.com/amakvana/SwitchEmuModDownloader/blob/main/GUIDE.md).
 
-![YuzuModDownloaderSetupLinuxAnimated](images/ymd-setup-linux.gif)
+![SwitchEmuModDownloaderSetupLinuxAnimated](images/ymd-setup-linux.gif)
 
 ## Usage
 
 1. Run YuzuModDownloader.exe
 2. Configure your preferred Options from the MenuStrip
 3. Choose a Download Server from the Dropdown
-4. Click on `Download Yuzu Game Mods`
+4. Click on `Download Game Mods`
