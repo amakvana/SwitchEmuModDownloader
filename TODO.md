@@ -1,9 +1,9 @@
 # TODO
 
-- [ ] rebrand software
-- [ ] update documentation
-  - [ ] readme
-  - [ ] readme assets
-  - [ ] guide
-- [ ] fix non-working repos
-- [ ] add ryujinx support 
+- [x] rebrand software
+- [x] update documentation
+  - [x] readme
+  - [x] documentation images
+  - [x] guide
+- [x] fix non-working repos
+- [ ] add ryujinx support

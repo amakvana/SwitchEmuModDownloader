@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.5.0.0] - 2024-03-06
+
+### Changed
+
+- `YuzuModDownloader` has now been rebranded to `SwitchEmuModDownloader`
+  - All relevant code has been refactored
+- UI tweaks
+- All previous versions of `YuzuModDownloader` will be invalidated and going forward, 1.5.0.0+ will be supported.
+
+### Fixed
+
+- `Official Switch-Mods Repo` is now working again.
+
+<br>
+
 ## [1.4.2.0] - 2024-02-18
 
 ### Added

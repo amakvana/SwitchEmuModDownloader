@@ -1,0 +1,66 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Width="450" SizeToContent="Height"
+        x:Class="SwitchEmuModDownloader.MainWindow"
+        Title="Switch Emu Mod Downloader"
+        CanResize="False"
+        Icon="/Assets/icon.ico"
+        Loaded="Window_LoadedAsync"
+        WindowStartupLocation="CenterScreen">
+
+  <StackPanel>
+
+    <!-- Menu Strip-->
+    <Menu>
+      <MenuItem Header="_File">
+        <MenuItem Header="Exit" Name="ExitToolStripMenuItem" Click="ExitToolStripMenuItem_Click"/>
+      </MenuItem>
+      <MenuItem Header="_Options" Name="OptionsToolStripMenuItem">
+        <MenuItem Header="_General">
+          <MenuItem Header="Clear Mod Data Location" ToolTip.Tip="Deletes all existing mods before downloading the latest Game Mods">
+            <MenuItem.Icon>
+              <CheckBox IsChecked="False" ClipToBounds="False" Name="ClearModDataLocationToolStripMenuItem" />
+            </MenuItem.Icon>
+          </MenuItem>
+          <MenuItem Header="Delete Downloaded Mod Archives" ToolTip.Tip="Deletes all downloaded mod archive files once unpacked">
+            <MenuItem.Icon>
+              <CheckBox IsChecked="True" ClipToBounds="False" Name="DeleteDownloadedModArchivesToolStripMenuItem" />
+            </MenuItem.Icon>
+          </MenuItem>
+        </MenuItem>
+        <!--<Separator/>
+        <MenuItem Header="Experimental"/>-->
+      </MenuItem>
+      <!-- /options -->
+      <MenuItem Header="_Help">
+        <MenuItem Header="About" Name="AboutToolStripMenuItem" Click="AboutToolStripMenuItem_ClickAsync"/>
+      </MenuItem>
+    </Menu>
+    
+    <Border Padding="15,15,15,0">
+      <StackPanel>
+        <Label>Download Server:</Label>
+        <ComboBox Name="CboModRepos" ToolTip.Tip="Available repositories to download Mods" SelectedIndex="0" HorizontalAlignment="Stretch">
+          <ComboBoxItem>Official Switch-Mods Repo</ComboBoxItem>
+          <ComboBoxItem>TheBoy181 Repo</ComboBoxItem>
+          <ComboBoxItem>HolographicWings TOTK Repo</ComboBoxItem>
+        </ComboBox>
+      </StackPanel>
+    </Border>
+
+    <Border Padding="15">
+      <StackPanel>
+        <ProgressBar Name="PbarProgress" IsIndeterminate="False" Minimum="0" Maximum="100" ShowProgressText="True" Height="30" Margin="0,0,0,10" />
+        <Button ToolTip.Tip="Download Game Mods for your Switch emulator" Name="BtnDownload" Click="BtnDownload_ClickAsync" Padding="0,15,0,15" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+          <StackPanel Orientation="Horizontal">
+            <Image Source="/Assets/icon.png" UseLayoutRounding="True" RenderOptions.BitmapInterpolationMode="HighQuality" MaxHeight="48" MaxWidth="48" VerticalAlignment="Center"/>
+            <Label VerticalAlignment="Center">Download Game Mods</Label>
+          </StackPanel>
+        </Button>
+      </StackPanel>
+    </Border>
+
+  </StackPanel>
+</Window>

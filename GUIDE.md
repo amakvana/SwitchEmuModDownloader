@@ -6,7 +6,7 @@
 - Latest .NET 8 Desktop Runtime for [Windows](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.1-windows-x64-installer) or [Linux](https://learn.microsoft.com/en-gb/dotnet/core/install/linux?WT.mc_id=dotnet-35129-website) installed.
 - Latest [Microsoft Edge Chromium](https://www.microsoft.com/en-us/edge/download) or [Google Chrome](https://www.google.com/chrome/) installed. Linux - deb only.
 - Latest [Visual C++ X64 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe) installed.
-- Latest [Yuzu](https://yuzu-emu.org/downloads/) installed, setup and [configured](https://youtu.be/kSVlTC1mO9w).
+- Latest Switch emulator configured & gamepaths set.
 
 ## Methodology
 
@@ -22,29 +22,28 @@ Ensure your emulator is up-to-date and [fully configured](https://www.youtube.co
 
 ### Windows
 
-Extract the entire contents of the `YuzuModDownloader-X.X.X.X-Windows-x64.zip` file and place it into the same folder your emulator's executable resides, then refer to the [USAGE](https://github.com/amakvana/SwitchEmuModDownloader/blob/main/GUIDE.md#usage).
+Extract the entire contents of the `SwitchEmuModDownloader-X.X.X.X-Windows-x64.zip` file and place it into the same folder your emulator's executable resides, then refer to the [USAGE](https://github.com/amakvana/SwitchEmuModDownloader/blob/main/GUIDE.md#usage).
 
-![SwitchEmuModDownloaderSetupWindowsAnimated](images/ymd-setup-windows.gif)
-![SwitchEmuModDownloaderSetupWindows](images/ymd-setup-windows-2.png)
+![SwitchEmuModDownloaderSetupWindowsAnimated](images/semd-setup-windows.gif)
 
 ### Linux
 
-Extract the entire contents of the `YuzuModDownloader-X.X.X.X-Linux-x64.zip` file onto your desktop.
+Extract the entire contents of the `SwitchEmuModDownloader-X.X.X.X-Linux-x64.zip` file onto your desktop.
 Run the following commands within Terminal
 
 ```
 cd ~/Desktop
-chmod +x YuzuModDownloader
-./YuzuModDownloader
+chmod +x SwitchEmuModDownloader
+./SwitchEmuModDownloader
 ```
 
-You can double click on YuzuModDownloader to execute it, once the first two commands above have been ran (3rd is to run it from Terminal) then refer to the [GUIDE](https://github.com/amakvana/SwitchEmuModDownloader/blob/main/GUIDE.md).
+You can double click on SwitchEmuModDownloader to execute it, once the first two commands above have been ran (3rd is to run it from Terminal) then refer to the [GUIDE](https://github.com/amakvana/SwitchEmuModDownloader/blob/main/GUIDE.md).
 
-![SwitchEmuModDownloaderSetupLinuxAnimated](images/ymd-setup-linux.gif)
+![SwitchEmuModDownloaderSetupLinuxAnimated](images/semd-setup-linux.gif)
 
 ## Usage
 
-1. Run YuzuModDownloader.exe
+1. Run SwitchEmuModDownloader.exe
 2. Configure your preferred Options from the MenuStrip
 3. Choose a Download Server from the Dropdown
 4. Click on `Download Game Mods`
