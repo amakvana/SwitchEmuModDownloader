@@ -6,7 +6,7 @@
 
 # Switch Emu Mod Downloader
 
-A Cross-Platform One-Click Games Mod Downloader for Switch emulators.
+A Cross-Platform One-Click Games Mod Downloader for Switch emulators. Formerly known as YuzuModDownloader.
 
 Perfect for those who need to download Switch emulation enhancement/workaround mods for their dumped games.
 
