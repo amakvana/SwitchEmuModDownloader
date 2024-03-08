@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.5.1.0] - 2024-03-08
+
+### Added
+
+- New Download Server - [LexouilleTM](https://github.com/LexouilleTM/yuzu-mods-archive) - [special thanks](https://github.com/LexouilleTM/yuzu-mods-archive/issues/1)
+  - Forked the Switch-Mods Wiki with all Mods reuploaded.
+
+### Changed
+
+- Small code refactor to improve code readability
+
+<br>
+
 ## [1.5.0.0] - 2024-03-06
 
 ### Changed
@@ -12,7 +25,7 @@ All notable changes to this project will be documented in this file.
   - All relevant code has been refactored
 - UI tweaks
 - All previous versions of `YuzuModDownloader` will be invalidated and going forward, 1.5.0.0+ will be supported.
-- Updated Avalonia framework from `11.0.9` to `11.0.10` to fix some bugs 
+- Updated Avalonia framework from `11.0.9` to `11.0.10` to fix some bugs
 
 ### Fixed
 

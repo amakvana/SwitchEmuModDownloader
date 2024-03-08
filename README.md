@@ -98,5 +98,6 @@ Special thanks to the following:
 - [Former Citrus Fruit-Named Emulator Team](https://web.archive.org/web/20230303133913/https://yuzu-emu.org/) - Former Nintendo Switch Emulator Developers
 - [TheBoy181](https://github.com/theboy181/) - [Alternative Mods Download Mirror](https://github.com/theboy181/switch-ptchtxt-mods)
 - [HolographicWings](https://github.com/HolographicWings) - [Alternative Mods Download Mirror](https://github.com/HolographicWings/TOTK-Mods-collection)
+- [LexouilleTM](https://github.com/LexouilleTM) - [Switch-Mods Wiki Alternative Mods Download Mirror](https://github.com/LexouilleTM/yuzu-mods-archive)
 - [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons
 - [Mr. Sujano](https://www.youtube.com/watch?v=q_2ivWN07Kw) - YouTube Installation Guide

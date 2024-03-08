@@ -5,14 +5,14 @@ using SwitchEmuModDownloader.Classes.Entities;
 
 namespace SwitchEmuModDownloader.Classes.Downloaders;
 
-public sealed class TheBoy181ModDownloader(IHttpClientFactory clientFactory, bool isModDataLocationToBeDeleted, bool isDownloadedModArchivesToBeDeleted) : ModDownloader(clientFactory, isModDataLocationToBeDeleted, isDownloadedModArchivesToBeDeleted)
+public sealed class LexouilleTMModDownloader(IHttpClientFactory clientFactory, bool isModDataLocationToBeDeleted, bool isDownloadedModArchivesToBeDeleted) : ModDownloader(clientFactory, isModDataLocationToBeDeleted, isDownloadedModArchivesToBeDeleted)
 {
-    private const string TheBoy181Xml = "theboy181.xml";
+    private const string LexouilleTmXml = "lexouilletm.xml";
 
     public override async Task DownloadPrerequisitesAsync()
     {
         await base.DownloadPrerequisitesAsync();
-        await DownloadGameDatabaseAsync($"assets/{TheBoy181Xml}");
+        await DownloadGameDatabaseAsync($"assets/{LexouilleTmXml}");
     }
 
     public override async Task DownloadModsAsync(List<Game> games)
@@ -43,7 +43,7 @@ public sealed class TheBoy181ModDownloader(IHttpClientFactory clientFactory, boo
         });
 
         // prepare the xml document 
-        using var reader = XmlReader.Create(TheBoy181Xml, new()
+        using var reader = XmlReader.Create(LexouilleTmXml, new()
         {
             Async = true,
             IgnoreComments = true
@@ -59,20 +59,18 @@ public sealed class TheBoy181ModDownloader(IHttpClientFactory clientFactory, boo
                 case "title_id":
                     string titleId = await reader.ReadElementContentAsStringAsync();
                     await reader.ReadAsync();
-                    string modUrlPath = await reader.ReadElementContentAsStringAsync();
+                    string titleName = await reader.ReadElementContentAsStringAsync();
 
                     if (string.IsNullOrWhiteSpace(titleId) || !Directory.Exists(Path.Combine(ModDirectoryPath, titleId)))
                         break;
 
                     // game found 
-                    string titleVersion = await GetTitleVersionAsync(titleId);
                     games.Add(new()
                     {
                         TitleID = titleId,
-                        TitleName = GetTitleFromModUrlPath(modUrlPath),
+                        TitleName = titleName,
                         ModDataLocation = Path.Combine(ModDirectoryPath, titleId),
-                        TitleVersion = titleVersion,
-                        ModDownloadUrls = await GetModDownloadUrlsAsync(browser, modUrlPath, titleVersion)   // detect urls for each game and populate the downloads 
+                        ModDownloadUrls = await GetModDownloadUrlsAsync(browser, titleName)   // detect urls for each game and populate the downloads 
                     });
                     break;
 
@@ -84,45 +82,12 @@ public sealed class TheBoy181ModDownloader(IHttpClientFactory clientFactory, boo
         return games;
     }
 
-    private static string GetTitleFromModUrlPath(string modUrlPath) => modUrlPath.Split(@"/")[0];
-
-    /// <summary>
-    /// Gets the Title Version information from /cache/game_list/
-    /// </summary>
-    /// <param name="titleId">The TitleID of the current game</param>
-    /// <returns>Title Version if exists, otherise returns 1.0.0</returns>
-    private async Task<string> GetTitleVersionAsync(string titleId)
-    {
-        string pv = Path.Combine(UserDirPath, "cache", "game_list", $"{titleId}.pv.txt");
-        const string defaultVersion = "1.0.0";
-
-        // if no pv file, return 1.0.0
-        if (!File.Exists(pv))
-            return defaultVersion;
-
-        // otherwise, read in pv.txt
-        using var reader = new StreamReader(pv);
-        string? line;
-        while ((line = await reader.ReadLineAsync()) is not null)
-        {
-            if (!line.StartsWith("Update (", StringComparison.OrdinalIgnoreCase))
-                continue;
-
-            // extract version from line containing Update (X.X.X)
-            int from = line.IndexOf('(') + 1;
-            int to = line.LastIndexOf(')');
-            return line[from..to];     // extract and return X.X.X 
-        }
-
-        return defaultVersion;     // fallback
-    }
-
     /// <summary>
     /// Retrieves all of the download URLs for a specific title.
     /// </summary>
     /// <param name="titleName">Title of the game.</param>
     /// <returns>List of Uri's containing the Urls to Mods.</returns>
-    private static async Task<List<Uri>> GetModDownloadUrlsAsync(IBrowser browser, string modUrlPath, string titleVersion)
+    private static async Task<List<Uri>> GetModDownloadUrlsAsync(IBrowser browser, string titleName)
     {
         // fetch all download links for current game
 
@@ -149,7 +114,7 @@ public sealed class TheBoy181ModDownloader(IHttpClientFactory clientFactory, boo
 
         // go to the mods webpage for the current game 
         // scrape all a.Link--primary tags and remove duplicates
-        await page.GoToAsync($@"https://github.com/theboy181/switch-ptchtxt-mods/tree/main/{modUrlPath}/{titleVersion}").ConfigureAwait(false);
+        await page.GoToAsync($@"https://github.com/LexouilleTM/yuzu-mods-archive/tree/main/{titleName}").ConfigureAwait(false);
         var hrefValues = await page.EvaluateExpressionAsync<string[]>(@"[...new Set([...document.querySelectorAll('a.Link--primary')].map(a => a.href).filter(Boolean))]").ConfigureAwait(false);
 
         // grab urls 
@@ -163,7 +128,7 @@ public sealed class TheBoy181ModDownloader(IHttpClientFactory clientFactory, boo
 
     private static void CleanUp()
     {
-        if (File.Exists(TheBoy181Xml))
-            File.Delete(TheBoy181Xml);
+        if (File.Exists(LexouilleTmXml))
+            File.Delete(LexouilleTmXml);
     }
 }

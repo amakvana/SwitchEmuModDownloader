@@ -41,7 +41,7 @@ public partial class MainWindow : Window
 
         // download the mods 
         IModDownloader modDownloader = ModDownloaderFactory.Create(CboModRepos.SelectedIndex, _clientFactory!, ClearModDataLocationToolStripMenuItem.IsChecked.GetValueOrDefault(), DeleteDownloadedModArchivesToolStripMenuItem.IsChecked.GetValueOrDefault());
-        modDownloader.UpdateProgress += ModDownloader_UpdateProgress;
+        modDownloader.ProgressChanged += ModDownloader_ProgressChanged;
         await modDownloader.DownloadPrerequisitesAsync();
         List<Game> games = await modDownloader.ReadGameTitlesDatabaseAsync();
         await modDownloader.DownloadModsAsync(games);
@@ -51,6 +51,7 @@ public partial class MainWindow : Window
         await new DownloadConfirmationWindow(games).ShowDialog(this);
 
         // reset ui
+        modDownloader.ProgressChanged -= ModDownloader_ProgressChanged;
         ToggleUiControls(true);
     }
 
@@ -66,7 +67,7 @@ public partial class MainWindow : Window
     ////  METHODS 
     //// ====================================================
 
-    private void ModDownloader_UpdateProgress(int progressPercentage, string progressText)
+    private void ModDownloader_ProgressChanged(int progressPercentage, string progressText)
     {
         PbarProgress.Value = progressPercentage;
         PbarProgress.ProgressTextFormat = $"{progressText} ({progressPercentage}%)";

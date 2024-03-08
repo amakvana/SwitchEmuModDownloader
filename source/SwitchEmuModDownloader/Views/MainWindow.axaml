@@ -46,6 +46,7 @@
           <ComboBoxItem>Official Switch-Mods Repo</ComboBoxItem>
           <ComboBoxItem>TheBoy181 Repo</ComboBoxItem>
           <ComboBoxItem>HolographicWings TOTK Repo</ComboBoxItem>
+          <ComboBoxItem>LexouilleTM Repo (Switch-Mods Repo Alternative)</ComboBoxItem>
         </ComboBox>
       </StackPanel>
     </Border>

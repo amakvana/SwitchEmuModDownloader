@@ -24,9 +24,9 @@ public abstract class ModDownloader : IModDownloader
         _isDownloadedModArchivesToBeDeleted = isDownloadedModArchivesToBeDeleted;
     }
 
-    public event Action<int, string>? UpdateProgress;
+    public event Action<int, string>? ProgressChanged;
 
-    private protected void RaiseUpdateProgress(int progressPercentage, string progressText) => UpdateProgress?.Invoke(progressPercentage, progressText);
+    private protected void OnProgressChanged(int progressPercentage, string progressText) => ProgressChanged?.Invoke(progressPercentage, progressText);
 
     private protected string UserDirPath { get; } = "";
 
@@ -55,12 +55,12 @@ public abstract class ModDownloader : IModDownloader
         // extract the filename from the url
         string fileName = url[(url.LastIndexOf('/') + 1)..];
         await using var file = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 8192, FileOptions.Asynchronous | FileOptions.SequentialScan);
-        var progressReporter = new Progress<float>(progress => RaiseUpdateProgress((int)(progress * 100), $"Downloading {fileName} ..."));
+        var progressReporter = new Progress<float>(progress => OnProgressChanged((int)(progress * 100), $"Downloading {fileName} ..."));
 
         // download the file asynchronously, reporting progress
         var client = _clientFactory.CreateClient("GitHub-SwitchEmuModDownloader");
         await client.DownloadAsync(url, file, progressReporter);
-        RaiseUpdateProgress(100, $"Downloading {fileName} ...");
+        OnProgressChanged(100, $"Downloading {fileName} ...");
     }
 
     /// <summary>
@@ -87,7 +87,7 @@ public abstract class ModDownloader : IModDownloader
                 string downloadedFilePath = Path.Combine(game.ModDataLocation, fileName);
                 await using (var file = new FileStream(downloadedFilePath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, fileOptions))
                 {
-                    var progressReporter = new Progress<float>(progress => RaiseUpdateProgress((int)(progress * 100), $"Downloading {fileName} ..."));
+                    var progressReporter = new Progress<float>(progress => OnProgressChanged((int)(progress * 100), $"Downloading {fileName} ..."));
                     await client.DownloadAsync(url.AbsoluteUri, file, progressReporter);
                 }
 
@@ -96,7 +96,7 @@ public abstract class ModDownloader : IModDownloader
                 if (new FileInfo(downloadedFilePath) is { Exists: true, Length: > 0 })
                 {
                     // file has been downloaded, unpack it 
-                    RaiseUpdateProgress(0, $"Unpacking {fileName} ...");
+                    OnProgressChanged(0, $"Unpacking {fileName} ...");
                     var psi = new ProcessStartInfo
                     {
                         UseShellExecute = true,
@@ -108,11 +108,11 @@ public abstract class ModDownloader : IModDownloader
 
                     using var p = Process.Start(psi)!;
                     await p.WaitForExitAsync();
-                    RaiseUpdateProgress(100, $"Unpacking {fileName} ...");
+                    OnProgressChanged(100, $"Unpacking {fileName} ...");
                 }
                 else
                 {
-                    RaiseUpdateProgress(100, $"Skipping {fileName} ...");
+                    OnProgressChanged(100, $"Skipping {fileName} ...");
                 }
             }
         }
@@ -173,12 +173,12 @@ public abstract class ModDownloader : IModDownloader
         var client = _clientFactory.CreateClient("GitHub-SwitchEmuModDownloader");
         await using (var file = new FileStream(sevenZipLocation, FileMode.Create, FileAccess.Write, FileShare.None, 8192, FileOptions.Asynchronous | FileOptions.SequentialScan))
         {
-            var progressReporter = new Progress<float>(progress => RaiseUpdateProgress((int)(progress * 100), "Downloading 7-Zip ..."));
+            var progressReporter = new Progress<float>(progress => OnProgressChanged((int)(progress * 100), "Downloading 7-Zip ..."));
             await client.DownloadAsync(downloadUrl, file, progressReporter);
         }
 
         // unpack 7zip, reporting progress
-        RaiseUpdateProgress(0, "Unpacking 7-Zip ...");
+        OnProgressChanged(0, "Unpacking 7-Zip ...");
         using (var archive = ZipFile.OpenRead(sevenZipLocation))
         {
             int totalFiles = archive.Entries.Count;
@@ -186,7 +186,7 @@ public abstract class ModDownloader : IModDownloader
             foreach (var entry in archive.Entries)
             {
                 entry.ExtractToFile(Path.Combine(prerequisitesLocation, entry.FullName), true);
-                RaiseUpdateProgress(++copiedFiles / totalFiles * 100, "Unpacking 7-Zip ...");
+                OnProgressChanged(++copiedFiles / totalFiles * 100, "Unpacking 7-Zip ...");
             }
         }
 

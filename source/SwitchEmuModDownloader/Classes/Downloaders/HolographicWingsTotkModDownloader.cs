@@ -21,7 +21,7 @@ public sealed class HolographicWingsTotkModDownloader(IHttpClientFactory clientF
         // detect user directory 
         // loop through {ModDirPath} folder & get title names from title Id's
         var games = new List<Game>();
-        RaiseUpdateProgress(0, "Scanning Games Library ...");
+        OnProgressChanged(0, "Scanning Games Library ...");
         using var reader = XmlReader.Create(HolographicWingsTotkXml, new()
         {
             Async = true,
@@ -58,7 +58,7 @@ public sealed class HolographicWingsTotkModDownloader(IHttpClientFactory clientF
             }
         }
 
-        RaiseUpdateProgress(100, "Scanning Games Library ...");
+        OnProgressChanged(100, "Scanning Games Library ...");
         return games;
     }
 

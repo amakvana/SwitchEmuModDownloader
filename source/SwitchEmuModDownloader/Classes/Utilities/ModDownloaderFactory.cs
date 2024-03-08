@@ -10,6 +10,7 @@ public static class ModDownloaderFactory
         0 => new OfficialSwitchModDownloader(clientFactory, clearModDataLocation, deleteDownloadedModArchives),
         1 => new TheBoy181ModDownloader(clientFactory, clearModDataLocation, deleteDownloadedModArchives),
         2 => new HolographicWingsTotkModDownloader(clientFactory, clearModDataLocation, deleteDownloadedModArchives),
+        3 => new LexouilleTMModDownloader(clientFactory, clearModDataLocation, deleteDownloadedModArchives),
         _ => new OfficialSwitchModDownloader(clientFactory, clearModDataLocation, deleteDownloadedModArchives),   // fallback 
     };
 }
