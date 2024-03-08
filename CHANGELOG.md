@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
   - All relevant code has been refactored
 - UI tweaks
 - All previous versions of `YuzuModDownloader` will be invalidated and going forward, 1.5.0.0+ will be supported.
+- Updated Avalonia framework from `11.0.9` to `11.0.10` to fix some bugs 
 
 ### Fixed
 
