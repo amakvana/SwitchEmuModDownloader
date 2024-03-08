@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - New Download Server - [LexouilleTM](https://github.com/LexouilleTM/yuzu-mods-archive) - [special thanks](https://github.com/LexouilleTM/yuzu-mods-archive/issues/1)
-  - Forked the Switch-Mods Wiki with all Mods reuploaded.
+  - Fork of the Switch-Mods Wiki with all Mods reuploaded.
 
 ### Changed
 
